@@ -16,8 +16,8 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,6 +124,24 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
+
+
+MEDIA_URL = '/media/'  # URL d'accès aux fichiers
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Dossier où sont stockées les images
+
+
+#=======================================================
+#            ENVOI DE MAIL
+#============================================
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'alioukalmaya@gmail.com'  # Remplace par ton email
+EMAIL_HOST_PASSWORD = 'pqfdbitqjowsfnhe'  # Utilise un mot de passe d’application
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 
 # Default primary key field type

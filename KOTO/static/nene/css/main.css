@@ -2622,3 +2622,33 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 60%);
   font-size: 14px;
 }
+
+
+.content-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.content-text pre {
+  background-color: #272822;
+  color: #f8f8f2;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-family: "Courier New", monospace;
+}
+
+
+.content-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.content-text pre {
+  background-color: #272822;
+  color: #f8f8f2;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-family: "Courier New", monospace;
+}
