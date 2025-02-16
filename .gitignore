@@ -1,0 +1,42 @@
+# Ignorer les fichiers Python compilés
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignorer les fichiers de configuration et d'environnement
+.env
+*.env
+*.venv/
+venv/
+env/
+.envrc
+
+# Ignorer les fichiers de logs et de bases de données locales
+logs/
+*.log
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# Ignorer les fichiers générés par Django
+*.pot
+*.pyc
+*.pyo
+migrations/__pycache__/
+
+# Ignorer les fichiers de cache et temporaires
+*.swp
+*.swo
+*.DS_Store
+.idea/
+.vscode/
+*.bak
+
+# Ignorer les fichiers et dossiers liés à Node.js si utilisé
+node_modules/
+package-lock.json
+
+# Ignorer les fichiers de compilation de frontend (si Bootstrap, Tailwind ou autre est utilisé)
+dist/
+build/
