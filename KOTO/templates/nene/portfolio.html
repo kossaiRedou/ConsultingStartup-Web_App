@@ -4,110 +4,97 @@
 
 {% block content %}
 
-    <!-- Page Title -->
-    <div class="page-title accent-background">
-      <div class="container d-lg-flex justify-content-between align-items-center">
-        <h1 class="mb-2 mb-lg-0">Notre Équipe</h1>
-        <nav class="breadcrumbs">
-          <ol>
-            <li><a href="{% url 'index' %}">Home</a></li>
-            <li class="current">Portfolio</li>
-          </ol>
-        </nav>
-      </div>
-    </div><!-- End Page Title -->
+  <!-- Page Title -->
+  <div class="page-title accent-background">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+      <h1 class="mb-2 mb-lg-0">Notre Équipe</h1>
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li class="current">Portfolio</li>
+        </ol>
+      </nav>
+    </div>
+  </div><!-- End Page Title -->
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="portfolio section">
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="portfolio section">
+    <div class="container">
+      <div class="row">
 
-      <div class="container">
-
-        <!-- Section Aliou Diallo -->
-        <div class="section-title" data-aos="fade-up">
+        <!-- Colonne de gauche : Profil -->
+        <div class="col-lg-3 d-flex flex-column align-items-left border-end pe-4">
+          <img src="{% static 'nene/img/profile.jpg' %}" class="img-fluid rounded-circle mb-3" alt="Photo de profil">
           <h2>Aliou Diallo</h2>
-          <p>Data Scientist & Analyst | Expert en modélisation et intelligence artificielle</p>
+          <p class="text-center">Data Scientist & Analyst | Expert en modélisation et intelligence artificielle</p>
+          <ul class="list-unstyled">
+            <li><strong>Email :</strong> aliou.diallo@example.com</li>
+            <li><strong>Téléphone :</strong> +33 6 12 34 56 78</li>
+            <li><strong>LinkedIn :</strong> <a href="#">linkedin.com/in/alioudiallo</a></li>
+          </ul>
         </div>
 
-        <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+        <!-- Colonne de droite : Projets -->
+        <div class="col-lg-9">
+          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
 
-          <div class="col-lg-4 col-md-6 portfolio-item">
-            <img src="{% static 'nene/img/portfolio/app-1.jpg' %}" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Dashboard Power BI – Eutelsat Group</h4>
-              <p>Conception d'un tableau de bord interactif permettant de suivre la performance des campagnes marketing et d’optimiser les décisions stratégiques.</p>
+            <!-- Projet 1 -->
+            <div class="col-md-6 portfolio-item">
+              <img src="{% static 'nene/img/portfolio/app-1.jpg' %}" class="img-fluid" alt="">
+              <div class="meta d-flex mt-2 align-items-center justify-content-center">
+                <h3 class="post-title align-items-center justify-content-center">Power BI - Dashboard</h3>
+              </div>
+              <div class="meta d-flex mb-2 align-items-center justify-content-center">
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-person"></i> <span class="ps-2"> tech1 </span>
+                </div>
+                <span class="px-3 text-black-50">/</span>
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-folder2"></i> <span class="ps-2">techno2</span>
+                </div>
+                <span class="px-3 text-black-50">/</span>
+                <div class="d-flex align-items-center">
+                  <i class="bi bi-folder2"></i> <span class="ps-2">techno3</span>
+                </div>
+              </div>
+              <div class="portfolio-info">
+                <h4>Dashboard Power BI – Eutelsat Group</h4>
+                <p>Conception d'un tableau de bord interactif pour le suivi des campagnes marketing.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="col-lg-4 col-md-6 portfolio-item">
-            <img src="{% static 'nene/img/portfolio/books-1.jpg' %}" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Modèle Prédictif – SAS Institut</h4>
-              <p>Développement d’un algorithme de Machine Learning pour anticiper les tendances du marché et optimiser les stratégies commerciales.</p>
+            <!-- Projet 2 -->
+            <div class="col-md-6 portfolio-item">
+              <img src="{% static 'nene/img/portfolio/books-1.jpg' %}" class="img-fluid" alt="">
+              <div class="portfolio-info">
+                <h4>Modèle Prédictif – SAS Institut</h4>
+                <p>Développement d’un algorithme de Machine Learning pour anticiper les tendances.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="col-lg-4 col-md-6 portfolio-item">
-            <img src="{% static 'nene/img/portfolio/app-1.jpg' %}" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web Scraping pour Veille Concurrentielle</h4>
-              <p>Création d’un outil de scraping permettant d’analyser les tendances du marché en temps réel et d’adapter la stratégie de pricing.</p>
+            <!-- Projet 3 -->
+            <div class="col-md-6 portfolio-item">
+              <img src="{% static 'nene/img/portfolio/app-1.jpg' %}" class="img-fluid" alt="">
+              <div class="portfolio-info">
+                <h4>Web Scraping pour Veille Concurrentielle</h4>
+                <p>Création d’un outil de scraping pour analyser les tendances en temps réel.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="col-lg-4 col-md-6 portfolio-item">
-            <img src="{% static 'nene/img/portfolio/pbooks-1.jpg' %}" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Développement d’une Application Web – INRAE</h4>
-              <p>Conception et mise en place d’une application de gestion de données avec Django, optimisant la collecte et l’analyse des données scientifiques.</p>
+            <!-- Projet 4 -->
+            <div class="col-md-6 portfolio-item">
+              <img src="{% static 'nene/img/portfolio/app-1.jpg' %}" class="img-fluid" alt="">
+              <div class="portfolio-info">
+                <h4>Application Web – INRAE</h4>
+                <p>Développement d’une application Django pour la gestion de données scientifiques.</p>
+              </div>
             </div>
-          </div>
 
-        </div><!-- End Row Aliou -->
+          </div><!-- Fin section projets -->
+        </div><!-- Fin colonne droite -->
 
-        <!-- Section Saffaye Diallo -->
-        <div class="section-title" data-aos="fade-up">
-          <h2>Saffaye Diallo</h2>
-          <p>Business Developer & Consultant | Expert en Stratégie et Marketing</p>
-        </div>
-
-        <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-
-          <div class="col-lg-4 col-md-6 portfolio-item">
-            <img src="{% static 'nene/img/portfolio/app-1.jpg' %}" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Études de Marché – Consulting pour Startups</h4>
-              <p>Réalisation d’analyses approfondies du marché pour aider des startups à mieux positionner leurs offres et maximiser leur impact.</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item">
-            <img src="{% static 'nene/img/portfolio/books-1.jpg' %}" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Développement Commercial – Mission en Entreprise</h4>
-              <p>Élaboration et mise en œuvre d’une stratégie commerciale, permettant une augmentation de 30% du chiffre d’affaires d’une PME.</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item">
-            <img src="{% static 'nene/img/portfolio/books-1.jpg' %}" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Analyse Client & CRM – Mission Conseil</h4>
-              <p>Mise en place d’un système CRM et segmentation client pour améliorer la fidélisation et optimiser les campagnes marketing.</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item">
-            <img src="{% static 'nene/img/portfolio/app-1.jpg' %}" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Optimisation des Processus de Vente</h4>
-              <p>Refonte des stratégies de prospection et mise en place d’un pipeline de vente structuré pour booster les performances commerciales.</p>
-            </div>
-          </div>
-
-        </div><!-- End Row Saffaye -->
-
-      </div>
-
-    </section><!-- /Portfolio Section -->
+      </div><!-- Fin row principale -->
+    </div><!-- Fin container -->
+  </section><!-- Fin Portfolio Section -->
 
 {% endblock %}

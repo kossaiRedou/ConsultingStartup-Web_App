@@ -48,3 +48,75 @@ class Article(models.Model):
     def __str__(self):
         return f"{self.title} - {self.author}"
 
+
+
+
+
+
+
+#======================================================================
+#                        Portfolio
+#====================================================
+from django.db import models
+
+class Employee(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    linkedin = models.URLField(blank=True, null=True)
+    position = models.CharField(max_length=150)
+    photo = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    location = models.CharField(max_length=100)
+    about = models.TextField(max_length=1200)
+
+    def __str__(self):
+        return self.name
+
+
+class Technology(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Project(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='projects')
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    image = models.ImageField(upload_to='projects/', blank=True, null=True)
+    technologies = models.ManyToManyField(Technology, related_name='projects')
+
+    def __str__(self):
+        return f"{self.title} - {self.employee.name}"
+
+
+class Experience(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='experiences')
+    position = models.CharField(max_length=100)
+    company = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True)
+    is_current = models.BooleanField(default=False)  # Pour les postes actuels
+    description = models.TextField(max_length=1200)
+    technologies = models.ManyToManyField(Technology, related_name='experiences')
+    city = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['-start_date']  # Trier du plus récent au plus ancien
+
+
+class Education(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='educations')
+    degree = models.CharField(max_length=100, blank=True, null=True)  # Type de diplôme
+    specialty = models.CharField(max_length=100)
+    university = models.CharField(max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True)
+    description = models.TextField(max_length=500)
+    country = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['-start_date']
+

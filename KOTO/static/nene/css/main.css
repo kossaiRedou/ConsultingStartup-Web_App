@@ -1182,24 +1182,26 @@ section,
 /*--------------------------------------------------------------
 # Portfolio Section
 --------------------------------------------------------------*/
+
 .portfolio .portfolio-filters {
   padding: 15px;
   margin: 0 auto 20px auto;
   list-style: none;
   text-align: center;
+  border-radius: 20px;
 }
 
 .portfolio .portfolio-filters li {
   cursor: pointer;
   display: inline-block;
-  padding: 8px 20px 10px 20px;
+  padding: 4px 10px 5px 10px;
   margin: 0;
   height: 100%;
   font-size: 15px;
   font-weight: 500;
   line-height: 70px;
   margin-bottom: 5px;
-  border-radius: 4px;
+  border-radius: 20px;
   transition: all 0.3s ease-in-out;
   font-family: var(--heading-font);
 }
@@ -1225,39 +1227,55 @@ section,
   }
 }
 
+/*--------------------------------------------------------------
+# Optimisation : Taille des cadres de projet
+--------------------------------------------------------------*/
 .portfolio .portfolio-item {
   position: relative;
   overflow: hidden;
   padding: 0px;
-  
+  max-width: 420px; /* Augmentation légère de la largeur */
+  margin: 10px; /* Centre chaque carte */
+  box-shadow: 0px 8px 12px rgba(54, 91, 203, 0.1); /* Ajoute un léger effet d’ombre */
+  border-radius: 8px; /* Rayon d’arrondi des coins */
 }
 
+.portfolio .portfolio-item img {
+  width: 100%;
+  height: 180px; /* Augmentation de la hauteur pour un meilleur équilibre */
+  object-fit: cover; /* Garde les proportions sans déformation */
+  border-radius: 8px;
+}
+
+/*--------------------------------------------------------------
+# Optimisation : Taille du cadre texte
+--------------------------------------------------------------*/
 .portfolio .portfolio-item .portfolio-info {
-  opacity: 0;
+  width: 100%; /* Le texte occupe toute la largeur du cadre */
+  height: 60%; /* Augmentation de la hauteur pour une meilleure lisibilité */
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: -100%;
-  z-index: 3;
-  transition: all ease-in-out 0.5s;
+  bottom: 0; /* Aligner le texte en bas du cadre */
   background: color-mix(in srgb, var(--surface-color), transparent 10%);
-  padding: auto;
-  height: auto;
+  opacity: 0;
+  transition: all ease-in-out 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px; /* Ajout d’un padding pour éviter que le texte touche les bords */
+  text-align: center;
 }
 
 .portfolio .portfolio-item .portfolio-info h4 {
-  font-size: 18px;
+  font-size: 16px; /* Légère réduction pour éviter la surcharge visuelle */
   font-weight: 600;
-  padding-right: 30px;
-  padding-left: 30px;
+  margin-bottom: 5px;
 }
 
 .portfolio .portfolio-item .portfolio-info p {
   color: color-mix(in srgb, var(--default-color), transparent 30%);
   font-size: 14px;
   margin-bottom: 0;
-  padding-right: 30px;
-  padding-left: 30px;
 }
 
 .portfolio .portfolio-item .portfolio-info .preview-link,
@@ -1283,8 +1301,8 @@ section,
 
 .portfolio .portfolio-item:hover .portfolio-info {
   opacity: 1;
-  bottom: 0;
 }
+
 
 /*--------------------------------------------------------------
 # Clients Section
