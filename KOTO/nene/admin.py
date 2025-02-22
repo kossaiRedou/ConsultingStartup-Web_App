@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Contact
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Article
+from .models import Article, Skill
 
 
 
@@ -59,43 +59,53 @@ class ArticleAdmin(admin.ModelAdmin):
 #====================================
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Employee, Project, Technology, Experience, Education, SoftSkills
+from .models import Employee, Project, Technology, Experience, Education
 
 
 class EducationInline(admin.TabularInline):  # Affichage en tableau
     model = Education
-    extra = 1
-    fields = ("degree", "specialty", "university", "start_date", "end_date", "city", "country", "description")
+    extra = 0
+    fields = ("degree", "specialty", "university", "start_date", "end_date", "city", "country")
 
 
 class ExperienceInline(admin.TabularInline):  # Affichage en tableau
     model = Experience
-    extra = 1
-    fields = ("position", "company", "start_date", "end_date", "is_current", "city", "technologies", "description")
+    extra = 0
+    fields = ("position", "company", "start_date", "end_date", "is_current", "city", "technologies")
 
 
 class ProjectInline(admin.TabularInline):  # Affichage en tableau
     model = Project
-    extra = 1
-    fields = ("title", "slug", "date", "description", "image", "depot", "demo", "technologies")
+    extra = 0
+    fields = ("title", "slug", "description", "image", "technologies")
 
 
+from .models import Employee, Project, Technology, Experience, Education, SoftSkills, Certification
+
+class CertificationInline(admin.TabularInline):  
+    model = Certification  
+    extra = 0 
+    fields = ("title", "platform", "link", "image", "skills")
+
+
+
+
+# Mise à jour de l'admin Employee pour inclure les certifications
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
     list_display = ("name", "position", "email", "phone", "location", "show_photo", "display_soft_skills")
     prepopulated_fields = {"slug": ("name",)}
     search_fields = ("name", "email", "position", "location", "softSkills__name")
     list_filter = ("position", "location", "softSkills")
-    
-    # Organisation en sections pour une saisie fluide
+
     fieldsets = (
         ("👤 Informations Personnelles", {
             "fields": ("name", "slug", "email", "phone", "linkedin", "gitHub", "medium", "position", "photo", "cv", "location", "about", "softSkills"),
         }),
     )
 
-    filter_horizontal = ("softSkills",)  # Ajout d'un widget amélioré pour la sélection multiple
-    inlines = [EducationInline, ExperienceInline, ProjectInline]  # Ajout des sections éducation, expérience et projets
+    filter_horizontal = ("softSkills",)
+    inlines = [EducationInline, ExperienceInline, ProjectInline, CertificationInline]  # Ajout des certifications ici !
 
     def show_photo(self, obj):
         if obj.photo:
@@ -106,24 +116,6 @@ class EmployeeAdmin(admin.ModelAdmin):
     def display_soft_skills(self, obj):
         return ", ".join([skill.name for skill in obj.softSkills.all()])
     display_soft_skills.short_description = "Soft Skills"
-
-
-@admin.register(Project)
-class ProjectAdmin(admin.ModelAdmin):
-    list_display = ("title", "employee", "show_image", "display_technologies")
-    prepopulated_fields = {"slug": ("title",)}
-    search_fields = ("title", "employee__name", "technologies__name")
-    list_filter = ("technologies",)
-
-    def show_image(self, obj):
-        if obj.image:
-            return mark_safe(f'<img src="{obj.image.url}" width="50" height="50" style="border-radius:10%;" />')
-        return "No Image"
-    show_image.short_description = "Image"
-
-    def display_technologies(self, obj):
-        return ", ".join([tech.name for tech in obj.technologies.all()])
-    display_technologies.short_description = "Technologies"
 
 
 @admin.register(Technology)
@@ -146,7 +138,25 @@ class EducationAdmin(admin.ModelAdmin):
     list_filter = ("university", "country", "start_date")
 
 
-@admin.register(SoftSkills)
-class SoftSkillsAdmin(admin.ModelAdmin):
+@admin.register(Certification)
+class CertificationAdmin(admin.ModelAdmin):
+    list_display = ("title", "platform", "employee", "show_image", "display_skills")
+    search_fields = ("title", "platform", "employee__name", "skills__name")
+    list_filter = ("platform",)
+    filter_horizontal = ("skills",)
+
+    def show_image(self, obj):
+        if obj.image:
+            return mark_safe(f'<img src="{obj.image.url}" width="50" height="50" style="border-radius:10%;" />')
+        return "No Image"
+    show_image.short_description = "Image"
+
+    def display_skills(self, obj):
+        return ", ".join([skill.name for skill in obj.skills.all()])
+    display_skills.short_description = "Compétences acquises"
+
+
+@admin.register(Skill)
+class SkillAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)

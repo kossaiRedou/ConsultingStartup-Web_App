@@ -96,10 +96,17 @@
                   <button class="nav-link active" id="pills-projects-tab" data-bs-toggle="pill" data-bs-target="#pills-projects" type="button" role="tab">Projets</button>
               </li>
               <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab">Expérience</button>
+                  <button class="nav-link" id="pills-experience-tab" data-bs-toggle="pill" data-bs-target="#pills-experience" type="button" role="tab">Expériences</button>
               </li>
+
               <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="pills-education-tab" data-bs-toggle="pill" data-bs-target="#pills-education" type="button" role="tab">Éducation</button>
+                <button class="nav-link" id="pills-certification-tab" data-bs-toggle="pill" data-bs-target="#pills-certification" type="button" role="tab">
+                    Certifications
+                </button>
+              </li>  
+
+              <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-education-tab" data-bs-toggle="pill" data-bs-target="#pills-education" type="button" role="tab">Educations</button>
               </li>
               <li class="nav-item" role="presentation">
                 <button class="nav-link" id="pills-education-tab" data-bs-toggle="pill" data-bs-target="#pills-education" type="button" role="tab">
@@ -110,7 +117,7 @@
                     {% endif %}
                 </button>
               </li>
-            
+
             </ul>
 
 
@@ -214,6 +221,56 @@
                   {% endfor %}
               </div>
             </div>
+
+
+            <!-- Section Certifications -->
+            <div class="tab-pane fade" id="pills-certification" role="tabpanel">
+              <div class="row gy-4">
+                  {% for certification in certifications %}
+                  <div class="col-12 border rounded shadow-sm bg-light p-3 d-flex justify-content-between align-items-center">
+                      
+                      <!-- Infos de la certification -->
+                      <div>
+                          <h6 class="fw-bold">{{ certification.title }}</h6>
+                          <p class="text-muted mb-1">
+                              <i class="bi bi-calendar-event"></i> {{ certification.date|date:"Y" }}  
+                              - <i class="bi bi-award"></i> {{ certification.platform }}
+                          </p>
+
+                          <!-- Compétences acquises -->
+                          {% if certification.skills.all %}
+                          <p class="mb-1"><strong>Compétences :</strong></p>
+                          <div class="d-flex flex-wrap">
+                              {% for skill in certification.skills.all %}
+                              <span class="badge bg-primary me-2">{{ skill.name }}</span>
+                              {% endfor %}
+                          </div>
+                          {% endif %}
+
+                          <!-- Lien vers la certification -->
+                          {% if certification.link %}
+                          <div class="mt-2">
+                              <a href="{{ certification.link }}" class="btn btn-outline-success btn-sm" target="_blank">
+                                  Voir la certification <i class="bi bi-box-arrow-up-right"></i>
+                              </a>
+                          </div>
+                          {% endif %}
+                      </div>
+
+                      <!-- Image de la certification à droite -->
+                      {% if certification.image %}
+                      <div class="ms-3">
+                          <img src="{{ certification.image.url }}" alt="{{ certification.title }}" class="img-fluid rounded" style="max-width: 120px;">
+                      </div>
+                      {% endif %}
+                  </div>
+                  {% empty %}
+                  <p class="text-muted">Aucune certification disponible.</p>
+                  {% endfor %}
+              </div>
+            </div>
+
+
 
 
 
