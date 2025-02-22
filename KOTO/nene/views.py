@@ -3,9 +3,8 @@ from django.utils.timezone import now
 from django.core.mail import send_mail
 from django.contrib import messages
 from .forms import ContactForm
-from .models import Article
-from .models import Employee, Education, Experience, Project
-
+from django.utils.timezone import now
+from .models import Employee, Education, Experience, Project, Technology, Certification, Article
 
 
 
@@ -76,9 +75,7 @@ def contact_view(request):
 #==============================================================
 #        PORTFOLIO
 #==============================================
-from django.shortcuts import render, get_object_or_404
-from django.utils.timezone import now
-from .models import Employee, Education, Experience, Project, Technology
+
 
 def portfolio(request, slug):
     # Récupérer l'employé en fonction du slug
@@ -98,6 +95,10 @@ def portfolio(request, slug):
 
     # Fusionner les technos sans doublons (via Python)
     technical_skills = set(tech_from_projects) | set(tech_from_experiences)
+    
+    # recuperer les certifications
+    certifications = Certification.objects.filter(employee=employee)
+
 
     context = {
         "employee": employee,
@@ -107,6 +108,7 @@ def portfolio(request, slug):
         "soft_skills": soft_skills,
         "technical_skills": technical_skills,
         "timestamp": now().timestamp(),
+        "certifications": certifications
     }
 
     return render(request, 'nene/portfolio.html', context)

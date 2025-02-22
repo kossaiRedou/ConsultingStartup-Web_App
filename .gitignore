@@ -37,3 +37,6 @@ package-lock.json
 # Ignorer les fichiers de compilation de frontend (si Bootstrap, Tailwind ou autre est utilisé)
 dist/
 build/
+
+#ignorer la base de données
+KOTO\db.sqlite3
