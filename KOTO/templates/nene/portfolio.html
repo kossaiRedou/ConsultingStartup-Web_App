@@ -23,16 +23,30 @@
       <div class="row">
 
         <!-- Colonne de gauche : Profil -->
+        <!-- Colonne de gauche : Profil -->
         <div class="col-lg-3 d-flex flex-column align-items-left border-end pe-4">
-          <img src="{% static 'nene/img/profile.jpg' %}" class="img-fluid rounded-circle mb-3" alt="Photo de profil">
-          <h2>Aliou Diallo</h2>
-          <p class="text-center">Data Scientist & Analyst | Expert en modélisation et intelligence artificielle</p>
+          {% if employee.photo %}
+              <img src="{{ employee.photo.url }}" class="img-fluid rounded-circle mb-3" alt="{{ employee.name }}">
+          {% else %}
+              <img src="{% static 'nene/img/default_profile.jpg' %}" class="img-fluid rounded-circle mb-3" alt="Photo de profil">
+          {% endif %}
+          
+          <h2>{{ employee.name }}</h2>
+          <p class="text-center">{{ employee.position }}</p>
+          
           <ul class="list-unstyled">
-            <li><strong>Email :</strong> aliou.diallo@example.com</li>
-            <li><strong>Téléphone :</strong> +33 6 12 34 56 78</li>
-            <li><strong>LinkedIn :</strong> <a href="#">linkedin.com/in/alioudiallo</a></li>
+              <li><strong>Email :</strong> {{ employee.email }}</li>
+              <li><strong>Téléphone :</strong> {{ employee.phone|default:"Non renseigné" }}</li>
+              <li><strong>LinkedIn :</strong> 
+                  {% if employee.linkedin %}
+                      <a href="{{ employee.linkedin }}" target="_blank">{{ employee.linkedin }}</a>
+                  {% else %}
+                      Non renseigné
+                  {% endif %}
+              </li>
           </ul>
         </div>
+
 
         <!-- Colonne de droite : Projets -->
         <div class="col-lg-9">

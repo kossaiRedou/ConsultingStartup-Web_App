@@ -1,6 +1,13 @@
 from django.db import models
+from django.db import models
+from django.utils.text import slugify
+import itertools
+from django.db import models
+from django.utils.safestring import mark_safe
+import markdown
 
-# Create your models here.
+
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=100, verbose_name="Nom")
@@ -19,11 +26,6 @@ class Contact(models.Model):
 #===========================================
 #                  Article
 #==============================
-from django.db import models
-from django.utils.text import slugify
-from django.utils.safestring import mark_safe
-import markdown
-
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name="Titre")
     slug = models.SlugField(unique=True, blank=True, verbose_name="Slug")
@@ -57,10 +59,15 @@ class Article(models.Model):
 #======================================================================
 #                        Portfolio
 #====================================================
+
+
+import itertools
 from django.db import models
+from django.utils.text import slugify
 
 class Employee(models.Model):
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     linkedin = models.URLField(blank=True, null=True)
@@ -69,8 +76,25 @@ class Employee(models.Model):
     location = models.CharField(max_length=100)
     about = models.TextField(max_length=1200)
 
+    def save(self, *args, **kwargs):
+        # Vérifier si le slug doit être mis à jour (seulement si le nom a changé)
+        if not self.slug or self.slug.startswith(slugify(self.name)):
+            base_slug = slugify(self.name, allow_unicode=True).replace("-", "_")
+            slug = base_slug
+
+            for i in itertools.count(1):
+                if not Employee.objects.filter(slug=slug).exclude(id=self.id).exists():
+                    break
+                slug = f"{base_slug}_{i}" 
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
+
+
 
 
 class Technology(models.Model):
@@ -80,12 +104,25 @@ class Technology(models.Model):
         return self.name
 
 
+
 class Project(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='projects')
     title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True, blank=True)
     description = models.TextField()
     image = models.ImageField(upload_to='projects/', blank=True, null=True)
     technologies = models.ManyToManyField(Technology, related_name='projects')
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            slug = base_slug
+            for i in itertools.count(1):
+                if not Project.objects.filter(slug=slug).exists():
+                    break
+                slug = f"{base_slug}_{i}"
+            self.slug = slug
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.title} - {self.employee.name}"
@@ -96,23 +133,28 @@ class Experience(models.Model):
     position = models.CharField(max_length=100)
     company = models.CharField(max_length=100)
     start_date = models.DateField()
-    end_date = models.DateField(null=True)
-    is_current = models.BooleanField(default=False)  # Pour les postes actuels
+    end_date = models.DateField(null=True, blank=True)
+    is_current = models.BooleanField(default=False)
     description = models.TextField(max_length=1200)
     technologies = models.ManyToManyField(Technology, related_name='experiences')
     city = models.CharField(max_length=100)
 
     class Meta:
-        ordering = ['-start_date']  # Trier du plus récent au plus ancien
+        ordering = ['-start_date']
+
+    def __str__(self):
+        return f"{self.position} at {self.company}"
+
+
 
 
 class Education(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='educations')
-    degree = models.CharField(max_length=100, blank=True, null=True)  # Type de diplôme
+    degree = models.CharField(max_length=100, blank=True, null=True)
     specialty = models.CharField(max_length=100)
     university = models.CharField(max_length=100)
     start_date = models.DateField()
-    end_date = models.DateField(null=True)
+    end_date = models.DateField(null=True, blank=True)
     description = models.TextField(max_length=500)
     country = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
@@ -120,3 +162,5 @@ class Education(models.Model):
     class Meta:
         ordering = ['-start_date']
 
+    def __str__(self):
+        return f"{self.specialty} - {self.university}"

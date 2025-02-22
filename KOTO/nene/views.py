@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from .forms import ContactForm
 from .models import Article
+from .models import Employee, Education, Experience, Project
 
 
 
@@ -12,8 +13,13 @@ from .models import Article
 def index(request):
     return render(request, 'nene/index.html', {"timestamp": now().timestamp()})
 
+#==============================================================
+#        About
+#==============================================
 def about(request):
-    return render(request, 'nene/about.html', {"timestamp": now().timestamp()})
+    employees = Employee.objects.all()  # Récupérer tous les employés
+    return render(request, 'nene/about.html', {"employees": employees})
+
 
 
 #==================================================
@@ -65,12 +71,43 @@ def contact_view(request):
 
 
 
+
+
 #==============================================================
 #        PORTFOLIO
 #==============================================
-def portfolio(request):
-    return render(request, 'nene/portfolio.html', {"timestamp": now().timestamp()})
+def portfolio(request, slug):
+    # Récupérer l'employé en fonction du slug
+    employee = get_object_or_404(Employee, slug=slug)
 
+    # Récupérer ses expériences, formations et projets
+    educations = Education.objects.filter(employee=employee).order_by('-start_date')
+    experiences = Experience.objects.filter(employee=employee).order_by('-start_date')
+    projects = Project.objects.filter(employee=employee)
+
+    context = {
+        "employee": employee,
+        "educations": educations,
+        "experiences": experiences,
+        "projects": projects,
+        "timestamp": now().timestamp(),
+    }
+
+    return render(request, 'nene/portfolio.html', context)
+
+
+
+
+
+
+
+
+
+
+
+#==============================================================
+#       
+#==============================================
 def portfolio_details(request):
     return render(request, 'nene/portfolio-details.html', {"timestamp": now().timestamp()})
 
