@@ -76,6 +76,10 @@ def contact_view(request):
 #==============================================================
 #        PORTFOLIO
 #==============================================
+from django.shortcuts import render, get_object_or_404
+from django.utils.timezone import now
+from .models import Employee, Education, Experience, Project, Technology
+
 def portfolio(request, slug):
     # Récupérer l'employé en fonction du slug
     employee = get_object_or_404(Employee, slug=slug)
@@ -85,16 +89,38 @@ def portfolio(request, slug):
     experiences = Experience.objects.filter(employee=employee).order_by('-start_date')
     projects = Project.objects.filter(employee=employee)
 
+    # Récupérer les soft skills
+    soft_skills = employee.softSkills.all()
+
+    # Récupérer toutes les technologies associées aux projets et expériences
+    tech_from_projects = Technology.objects.filter(projects__employee=employee)
+    tech_from_experiences = Technology.objects.filter(experiences__employee=employee)
+
+    # Fusionner les technos sans doublons (via Python)
+    technical_skills = set(tech_from_projects) | set(tech_from_experiences)
+
     context = {
         "employee": employee,
         "educations": educations,
         "experiences": experiences,
         "projects": projects,
+        "soft_skills": soft_skills,
+        "technical_skills": technical_skills,
         "timestamp": now().timestamp(),
     }
 
     return render(request, 'nene/portfolio.html', context)
 
+
+
+#==============================================================
+#             Projet detail
+#==============================================
+from .models import Project
+
+def project_detail(request, slug):
+    project = get_object_or_404(Project, slug=slug)
+    return render(request, 'nene/project_detail.html', {'project': project})
 
 
 
@@ -106,10 +132,8 @@ def portfolio(request, slug):
 
 
 #==============================================================
-#       
+#             
 #==============================================
-def portfolio_details(request):
-    return render(request, 'nene/portfolio-details.html', {"timestamp": now().timestamp()})
 
 def pricing(request):
     return render(request, 'nene/pricing.html', {"timestamp": now().timestamp()})

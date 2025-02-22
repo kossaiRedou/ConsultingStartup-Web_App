@@ -1,11 +1,8 @@
 {% extends "nene/base.html" %}
 
-{%load static%}
+{% load static %}
 
 {% block content %}
-
-
- 
 
     <!-- Page Title -->
     <div class="page-title accent-background">
@@ -13,8 +10,8 @@
         <h1 class="mb-2 mb-lg-0">About</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="{% url 'index' %}" >Home</a></li>
-            <li class="current" >About</li>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li class="current">About</li>
           </ol>
         </nav>
       </div>
@@ -22,258 +19,121 @@
 
     <!-- About Section -->
     <section id="about" class="about section">
-
       <div class="container">
-
         <div class="row position-relative">
-
           <div class="col-lg-7 about-img" data-aos="zoom-out" data-aos-delay="200">
-            {% load static %}
-            <img src="{% static 'nene/img/about.jpg' %}"></div>
+            <img src="{% static 'nene/img/about.jpg' %}" class="img-fluid" alt="About Image">
+          </div>
 
           <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
             <h2 class="inner-title">Des analyses précises pour des actions impactantes. Gabithex, le radar intelligent de votre marché.</h2>
             <div class="our-story">
               <h4>2024</h4>
               <h3>Notre histoire</h3>
-              <p>Gabithex est une initiative ambitieuse combinant intelligence artificielle et analyse stratégique. Grâce à une expertise approfondie et des outils modernes, nous accompagnons les entreprises dans leur transformation et leur adaptation aux évolutions du marché.</p>
+              <p>Gabithex est une initiative ambitieuse combinant intelligence artificielle et analyse stratégique...</p>
               <ul>
                   <li><i class="bi bi-check-circle"></i> <span>Analyse des tendances sectorielles et veille concurrentielle</span></li>
                   <li><i class="bi bi-check-circle"></i> <span>Identification des opportunités de croissance et benchmarks</span></li>
                   <li><i class="bi bi-check-circle"></i> <span>Développement d’outils interactifs et dashboards sur mesure</span></li>
               </ul>
-              <p>Notre mission est d’offrir des solutions stratégiques basées sur les données, permettant aux entreprises de mieux comprendre leur environnement concurrentiel, d’anticiper les tendances et d’optimiser leur prise de décision.</p>
+              <p>Notre mission est d’offrir des solutions stratégiques basées sur les données...</p>
               <div class="watch-video d-flex align-items-center position-relative">
                 <i class="bi bi-play-circle"></i>
                 <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox stretched-link">Ecouter les mots de <span>Mr. Safaye Diallo</span> - CO</a>
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
-
     </section><!-- /About Section -->
 
     <!-- Team Section -->
     <section id="team" class="team section light-background">
-
-      <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Notre Équipe</h2>
-        <p>Une équipe d'experts passionnés, combinant intelligence artificielle et analyse stratégique pour accompagner votre entreprise.</p>
-      </div><!-- End Section Title -->
+        <p>Une équipe d'experts passionnés, combinant intelligence artificielle et analyse stratégique...</p>
+      </div>
 
       <div class="container">
+        <div class="row justify-content-center gy-4">
+          {% for employee in employees %}
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+              <div class="team-member">
+                <div class="member-img">
 
-        <div class="row justify-content-center gy-4 ">
-          
-          <!-- Team Member --> 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'nene/img/team/saffaye1.jpg' %}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
+                  <a href="{% url 'portfolio' employee.slug %}">
+                    <img src="{% if employee.photo %}{{ employee.photo.url }}{% else %}{% static 'nene/img/profil_defaut.png' %}{% endif %}" class="img-fluid" alt="">
+                  </a>
+
+                  <div class="social">
+                    {% if employee.linkedin %}
+                        <a href="{{ employee.linkedin }}" target="_blank"><i class="bi bi-linkedin"></i></a>
+                    {% endif %}
+                    {% if employee.gitHub %}
+                        <a href="{{ employee.gitHub }}" target="_blank"><i class="bi bi-github"></i></a>
+                    {% endif %}
+                    {% if employee.medium %}
+                        <a href="{{ employee.medium }}" target="_blank"><i class="bi bi-medium"></i></a>
+                    {% endif %}
+                  </div>
+
                 </div>
-              </div>
-              <div class="member-info">
-                <h4>Saffaye Diallo</h4>
-                <span>Co-fondatrice & Responsable Communication et Strategie Marketing</span>
+
+                <div class="member-info">
+                  <h4><a href="{% url 'portfolio' employee.slug %}">{{ employee.name }}</a></h4>
+                  <span>{{ employee.position }}</span>
+                  <a href="{% url 'portfolio' employee.slug %}" class="btn mt-3 btn-outline-info">Visiter Mon Portfolio</a>
+                </div>
+
               </div>
             </div>
-          </div><!-- End Team Member -->
-
-          <!-- Team Member --> 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'nene/img/team/saffaye1.jpg' %}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Saffaye Diallo</h4>
-                <span>Co-fondatrice & Responsable Communication et Strategie Marketing</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-
-          <!-- Team Member --> 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'nene/img/team/saffaye1.jpg' %}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Saffaye Diallo</h4>
-                <span>Co-fondatrice & Responsable Communication et Strategie Marketing</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-
-
-          <!-- Team Member --> 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'nene/img/team/saffaye1.jpg' %}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Saffaye Diallo</h4>
-                <span>Co-fondatrice & Responsable Communication et Strategie Marketing</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-
-
-          <!-- Team Member --> 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'nene/img/team/saffaye1.jpg' %}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Saffaye Diallo</h4>
-                <span>Co-fondatrice & Responsable Communication et Strategie Marketing</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-          <!-- Team Member --> 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
-            <div class="team-member">
-              <div class="member-img">
-                <img src="{% static 'nene/img/team/saffaye1.jpg' %}" class="img-fluid" alt="">
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter-x"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-              <div class="member-info">
-                <h4>Saffaye Diallo</h4>
-                <span>Co-fondatrice & Responsable Communication et Strategie Marketing</span>
-              </div>
-            </div>
-          </div><!-- End Team Member -->
-
-        </div><!-- End Team Member -->
-
-
-        </div><!-- End Row -->
-
-      </div><!-- End Container -->
-
+          {% endfor %}
+        </div>
+      </div>
     </section><!-- End Team Section -->
-
-
 
     <!-- Skills Section -->
     <section id="skills" class="skills section">
-
-      <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Nos Compétences</h2>
-        <p>Une expertise combinée en intelligence artificielle, analyse de données et stratégie marketing pour accompagner les entreprises dans leurs décisions.</p>
-      </div><!-- End Section Title -->
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row skills-content skills-animation justify-content-center">
-
-          <div class="col-lg-6">
-
-            <div class="progress">
-              <span class="skill"><span>Analyse de données & Machine Learning</span> <i class="val">95%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div><!-- End Skills Item -->
-
-            <div class="progress">
-              <span class="skill"><span>Stratégie de développement commercial</span> <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div><!-- End Skills Item -->
-
-            <div class="progress">
-              <span class="skill"><span>Web Scraping & Collecte de données</span> <i class="val">85%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div><!-- End Skills Item -->
-
-          </div>
-
-          <div class="col-lg-6">
-
-            <div class="progress">
-              <span class="skill"><span>Développement d’applications web (Django, Flask)</span> <i class="val">90%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div><!-- End Skills Item -->
-
-            <div class="progress">
-              <span class="skill"><span>Visualisation des données (Power BI, SAS Viya, R-Shiny)</span> <i class="val">95%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div><!-- End Skills Item -->
-
-            <div class="progress">
-              <span class="skill"><span>Gestion de projet & Leadership</span> <i class="val">85%</i></span>
-              <div class="progress-bar-wrap">
-                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-            </div><!-- End Skills Item -->
-
-          </div>
-
-        </div>
-
+        <p>Une expertise combinée en intelligence artificielle, analyse de données et stratégie marketing...</p>
       </div>
-
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row skills-content skills-animation justify-content-center">
+          <div class="col-lg-6">
+            <div class="progress">
+              <span class="skill">Analyse de données & Machine Learning <i class="val">95%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="progress">
+              <span class="skill">Stratégie de développement commercial <i class="val">90%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="progress">
+              <span class="skill">Développement d’applications web (Django, Flask) <i class="val">90%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="progress">
+              <span class="skill">Gestion de projet & Leadership <i class="val">85%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section><!-- /Skills Section -->
 
-
-    
     <!-- Clients Section -->
-
     {% include "nene/liste_clients.html" %}
-
     <!-- /Clients Section -->
 
- {% endblock %}
+{% endblock %}

@@ -59,39 +59,42 @@ class ArticleAdmin(admin.ModelAdmin):
 #====================================
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Employee, Project, Technology, Experience, Education
+from .models import Employee, Project, Technology, Experience, Education, SoftSkills
 
 
 class EducationInline(admin.TabularInline):  # Affichage en tableau
     model = Education
     extra = 1
-    fields = ("degree", "specialty", "university", "start_date", "end_date", "city", "country")
+    fields = ("degree", "specialty", "university", "start_date", "end_date", "city", "country", "description")
 
 
 class ExperienceInline(admin.TabularInline):  # Affichage en tableau
     model = Experience
     extra = 1
-    fields = ("position", "company", "start_date", "end_date", "is_current", "city", "technologies")
+    fields = ("position", "company", "start_date", "end_date", "is_current", "city", "technologies", "description")
 
 
 class ProjectInline(admin.TabularInline):  # Affichage en tableau
     model = Project
     extra = 1
-    fields = ("title", "slug", "description", "image", "technologies")
+    fields = ("title", "slug", "date", "description", "image", "depot", "demo", "technologies")
 
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ("name", "position", "email", "phone", "location", "show_photo")
+    list_display = ("name", "position", "email", "phone", "location", "show_photo", "display_soft_skills")
     prepopulated_fields = {"slug": ("name",)}
-    search_fields = ("name", "email", "position", "location")
-    list_filter = ("position", "location")
+    search_fields = ("name", "email", "position", "location", "softSkills__name")
+    list_filter = ("position", "location", "softSkills")
     
     # Organisation en sections pour une saisie fluide
     fieldsets = (
-        ("👤 Informations Personnelles", {"fields": ("name", "slug", "email", "phone", "linkedin", "position", "photo", "location", "about")}),
+        ("👤 Informations Personnelles", {
+            "fields": ("name", "slug", "email", "phone", "linkedin", "gitHub", "medium", "position", "photo", "cv", "location", "about", "softSkills"),
+        }),
     )
 
+    filter_horizontal = ("softSkills",)  # Ajout d'un widget amélioré pour la sélection multiple
     inlines = [EducationInline, ExperienceInline, ProjectInline]  # Ajout des sections éducation, expérience et projets
 
     def show_photo(self, obj):
@@ -99,6 +102,10 @@ class EmployeeAdmin(admin.ModelAdmin):
             return mark_safe(f'<img src="{obj.photo.url}" width="50" height="50" style="border-radius:50%;" />')
         return "No Image"
     show_photo.short_description = "Photo"
+
+    def display_soft_skills(self, obj):
+        return ", ".join([skill.name for skill in obj.softSkills.all()])
+    display_soft_skills.short_description = "Soft Skills"
 
 
 @admin.register(Project)
@@ -137,3 +144,9 @@ class EducationAdmin(admin.ModelAdmin):
     list_display = ("specialty", "university", "start_date", "end_date", "employee", "city", "country")
     search_fields = ("specialty", "university", "employee__name", "city", "country")
     list_filter = ("university", "country", "start_date")
+
+
+@admin.register(SoftSkills)
+class SoftSkillsAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    search_fields = ("name",)

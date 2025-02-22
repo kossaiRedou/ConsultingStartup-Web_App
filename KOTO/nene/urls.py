@@ -19,7 +19,8 @@ urlpatterns = [
     path('contact/', views.contact_view, name='contact'),
     
     path('portfolio/<slug:slug>/', views.portfolio, name='portfolio'),
-    path('portfolio-details/', views.portfolio_details, name='portfolio-details'),
+    path('portfolio/projets/<slug:slug>/', views.project_detail, name='project_detail'),
+    
     
     path('pricing/', views.pricing, name='pricing'),
     

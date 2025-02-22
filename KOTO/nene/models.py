@@ -1,11 +1,11 @@
 from django.db import models
-from django.db import models
 from django.utils.text import slugify
 import itertools
 from django.db import models
 from django.utils.safestring import mark_safe
 import markdown
-
+import itertools
+from django.utils.timezone import now
 
 
 
@@ -60,32 +60,41 @@ class Article(models.Model):
 #                        Portfolio
 #====================================================
 
+class SoftSkills(models.Model):
+    name = models.CharField(max_length=50, unique=True)
 
-import itertools
-from django.db import models
-from django.utils.text import slugify
+    def __str__(self):
+        return self.name
+
 
 class Employee(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
+    
     linkedin = models.URLField(blank=True, null=True)
+    gitHub = models.URLField(blank=True, null=True)
+    medium = models.URLField(blank=True, null=True)
+    
     position = models.CharField(max_length=150)
     photo = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     location = models.CharField(max_length=100)
+    
     about = models.TextField(max_length=1200)
+    softSkills = models.ManyToManyField(SoftSkills, related_name='employees')
+    cv = models.FileField(upload_to='KOTO\media\cvs', blank=True, null=True)  # Ajout du champ CV
 
     def save(self, *args, **kwargs):
-        # Vérifier si le slug doit être mis à jour (seulement si le nom a changé)
-        if not self.slug or self.slug.startswith(slugify(self.name)):
+        # Vérifier si l'objet est nouveau ou si le nom a changé
+        if not self.pk or not self.slug.startswith(slugify(self.name)):
             base_slug = slugify(self.name, allow_unicode=True).replace("-", "_")
             slug = base_slug
 
             for i in itertools.count(1):
                 if not Employee.objects.filter(slug=slug).exclude(id=self.id).exists():
                     break
-                slug = f"{base_slug}_{i}" 
+                slug = f"{base_slug}_{i}"
 
             self.slug = slug
 
@@ -95,8 +104,6 @@ class Employee(models.Model):
         return self.name
 
 
-
-
 class Technology(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
@@ -104,14 +111,19 @@ class Technology(models.Model):
         return self.name
 
 
-
 class Project(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='projects')
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+    
+    date = models.DateField(default=now)
     description = models.TextField()
+    
     image = models.ImageField(upload_to='projects/', blank=True, null=True)
     technologies = models.ManyToManyField(Technology, related_name='projects')
+    
+    demo = models.URLField(blank=True, null=True)
+    depot = models.URLField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -143,9 +155,8 @@ class Experience(models.Model):
         ordering = ['-start_date']
 
     def __str__(self):
-        return f"{self.position} at {self.company}"
-
-
+        end_date_display = self.end_date.strftime("%Y") if self.end_date else "En cours"
+        return f"{self.position} at {self.company} ({end_date_display})"
 
 
 class Education(models.Model):
@@ -163,4 +174,5 @@ class Education(models.Model):
         ordering = ['-start_date']
 
     def __str__(self):
-        return f"{self.specialty} - {self.university}"
+        end_date_display = self.end_date.strftime("%Y") if self.end_date else "En cours"
+        return f"{self.specialty} - {self.university} ({end_date_display})"
