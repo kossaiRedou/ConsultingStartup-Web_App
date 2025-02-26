@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Contact
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Article, Skill
+from .models import Article, Skill, AboutSection
 
 
 
@@ -160,3 +160,42 @@ class CertificationAdmin(admin.ModelAdmin):
 class SkillAdmin(admin.ModelAdmin):
     list_display = ("name",)
     search_fields = ("name",)
+
+
+
+
+#==================================================
+#          about Section
+#===============================
+@admin.register(AboutSection)
+class AboutSectionAdmin(admin.ModelAdmin):
+    list_display = ("title", "year", "video_url")  # Affichage des champs clés
+    search_fields = ("title", "year")  # Recherche rapide
+    list_filter = ("year",)  # Filtres pour faciliter la recherche
+    readonly_fields = ("preview_image",)  # Ajout d'un aperçu de l'image
+    fieldsets = (
+        ("Informations principales", {
+            "fields": ("title", "year", "history_title", "history_text", "mission")
+        }),
+        ("Médias", {
+            "fields": ("image", "preview_image", "video_url")
+        }),
+    )
+
+    def preview_image(self, obj):
+        if obj.image:
+            return f'<img src="{obj.image.url}" width="200" style="border-radius:10px;" />'
+        return "Pas d'image"
+    
+    preview_image.allow_tags = True
+    preview_image.short_description = "Aperçu de l'image"
+
+
+# Nos pratiques
+from .models import Practice
+
+@admin.register(Practice)
+class PracticeAdmin(admin.ModelAdmin):
+    list_display = ("number", "title")
+    ordering = ("number",)
+    search_fields = ("title", "description")

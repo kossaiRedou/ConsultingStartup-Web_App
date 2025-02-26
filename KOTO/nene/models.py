@@ -213,3 +213,49 @@ class Education(models.Model):
     def __str__(self):
         end_date_display = self.end_date.strftime("%Y") if self.end_date else "En cours"
         return f"{self.specialty} - {self.university} ({end_date_display})"
+
+
+
+
+
+#================================================
+#            Section About
+#===================================
+class AboutSection(models.Model):
+    title = models.CharField(max_length=255)
+    year = models.CharField(max_length=4)
+    history_title = models.CharField(max_length=255)
+    history_text = models.TextField()
+    mission = models.TextField(default=None)  # <== Assure-toi que ce champ existe bien !
+    image = models.ImageField(upload_to="about_images/", null=True, blank=True)
+    video_url = models.URLField(null=True, blank=True)
+
+
+
+    def __str__(self):
+        return self.title
+    
+    
+    
+# Nos pratiques:
+from django.db import models
+
+class Practice(models.Model):
+    number = models.PositiveIntegerField(verbose_name="Numéro", unique=True)  # Empêche les doublons
+    title = models.CharField(max_length=255, verbose_name="Titre")
+    description = models.TextField(verbose_name="Description")
+
+    class Meta:
+        ordering = ['number']
+        verbose_name = "Pratique"
+        verbose_name_plural = "Nos Pratiques"
+
+    def formatted_number(self):
+        """Retourne le numéro formaté avec deux chiffres (ex: 02, 03, 10)"""
+        return f"{self.number:02d}"  
+
+    def __str__(self):
+        """Affichage propre dans Django Admin et autres vues"""
+        return f"{self.formatted_number()}. {self.title}"
+
+
