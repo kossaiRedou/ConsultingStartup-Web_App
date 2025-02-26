@@ -19,7 +19,7 @@
     <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'nene/img/GABITHEX1.png' %}">
     <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}">
     <meta property="og:type" content="website">
-  
+
 
   <!-- Favicons -->
   <link href="{% static 'nene/img/GABITHEX1.png' %}" rel="icon">
@@ -46,7 +46,7 @@
   <script>hljs.highlightAll();</script>
 
 
- 
+
 </head>
 
 <body class="index-page">
@@ -56,21 +56,22 @@
 
       <a href="{% url 'index' %}" class="logo d-flex align-items-center me-auto">
         <!-- Uncomment the line below if you also wish to use an image logo -->
-        <img src="{% static 'nene/img/GABITHEX1.png' %}"alt=""> 
-        <h1 class="sitename">GABITHEX</h1><span>.</span>
+        <img src="{% static 'nene/img/logoFA.png' %}"alt="">
+        <h1 class="sitename">FODOR ANALYTICS</h1><span>.</span>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="{% url 'index' %}" class="active">Home</a></li>
+          <li><a href="{% url 'services' %}">Services</a></li>
           <li class="dropdown"><a href="{% url 'about' %}"><span>About</span> </a><!--i class="bi bi-chevron-down toggle-dropdown"></i></a-->
             <!--ul>
               <li><a href="{% url 'team' %}">Team</a></li>
               <li><a href="{% url 'testimonials' %}">Testimonials</a></li>
             </ul-->
           </li>
-          <li><a href="{% url 'services' %}">Services</a></li>
-          <li><a href="">Portfolio</a></li>
+
+          <!--li><a href="">Portfolio</a></li-->
           <!--li><a href="pricing' %}">Pricing</a></li-->
           <li><a href="{% url 'blog' %}">Blog</a></li>
           <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -158,7 +159,7 @@
     <div class="container copyright text-center mt-4">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">Gabithex Consulting</strong> <span>All Rights Reserved</span></p>
       <div class="credits">
-       
+
         Designed by <a href="{% url 'index' %}" >GABITHEX</a>
       </div>
     </div>

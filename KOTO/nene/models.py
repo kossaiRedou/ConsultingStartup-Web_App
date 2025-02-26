@@ -72,15 +72,15 @@ class Employee(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True)
     email = models.EmailField(unique=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
-    
+
     linkedin = models.URLField(blank=True, null=True)
     gitHub = models.URLField(blank=True, null=True)
     medium = models.URLField(blank=True, null=True)
-    
+
     position = models.CharField(max_length=150)
     photo = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     location = models.CharField(max_length=100)
-    
+
     about = models.TextField(max_length=1200)
     softSkills = models.ManyToManyField(SoftSkills, related_name='employees')
     cv = models.FileField(upload_to='KOTO\media\cvs', blank=True, null=True)  # Ajout du champ CV
@@ -115,13 +115,13 @@ class Project(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='projects')
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True, null=True)
-    
+
     date = models.DateField(default=now)
     description = models.TextField()
-    
+
     image = models.ImageField(upload_to='projects/', blank=True, null=True)
     technologies = models.ManyToManyField(Technology, related_name='projects')
-    
+
     demo = models.URLField(blank=True, null=True)
     depot = models.URLField(blank=True, null=True)
 
@@ -176,6 +176,10 @@ class Certification(models.Model):
     image = models.ImageField(upload_to='certifications/', blank=True, null=True)  # Image de la certification
     skills = models.ManyToManyField(Skill, related_name='certifications')  # Compétences acquises
     date = models.DateField(default=now)
+
+    class Meta:
+        ordering = ['-date']  # Tri par date décroissante (du plus récent au plus ancien)
+
     def __str__(self):
         return f"{self.title} - {self.platform}"
 

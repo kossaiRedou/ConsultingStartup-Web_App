@@ -65,13 +65,13 @@ from .models import Employee, Project, Technology, Experience, Education
 class EducationInline(admin.TabularInline):  # Affichage en tableau
     model = Education
     extra = 0
-    fields = ("degree", "specialty", "university", "start_date", "end_date", "city", "country")
+    fields = ("degree", "specialty", "university", "start_date", "end_date", "city", "country", "description")
 
 
 class ExperienceInline(admin.TabularInline):  # Affichage en tableau
     model = Experience
     extra = 0
-    fields = ("position", "company", "start_date", "end_date", "is_current", "city", "technologies")
+    fields = ("position", "company", "start_date", "end_date", "is_current", "city", "technologies", "description")
 
 
 class ProjectInline(admin.TabularInline):  # Affichage en tableau
@@ -82,9 +82,9 @@ class ProjectInline(admin.TabularInline):  # Affichage en tableau
 
 from .models import Employee, Project, Technology, Experience, Education, SoftSkills, Certification
 
-class CertificationInline(admin.TabularInline):  
-    model = Certification  
-    extra = 0 
+class CertificationInline(admin.TabularInline):
+    model = Certification
+    extra = 0
     fields = ("title", "platform", "link", "image", "skills")
 
 

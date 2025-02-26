@@ -64,6 +64,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'KOTO.wsgi.application'
 
 
+LOGIN_URL = "/admin"
+
+
 # Database
 DATABASES = {
     'default': {
