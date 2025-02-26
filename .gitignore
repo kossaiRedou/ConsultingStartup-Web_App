@@ -38,5 +38,10 @@ package-lock.json
 dist/
 build/
 
+<<<<<<< Updated upstream
 #ignorer la base de données
 KOTO\db.sqlite3
+=======
+#ignorer db
+/home/alioukalmaya/consulting/KOTO/db.sqlite3
+>>>>>>> Stashed changes

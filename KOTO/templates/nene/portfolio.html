@@ -25,13 +25,13 @@
 
         <!-- Colonne de gauche : Profil -->
         <div class="col-lg-3 d-flex flex-column align-items-start text-start border-end pe-4">
-           
+
           <!-- Photo de profil -->
           {% if employee.photo %}
-              <img src="{{ employee.photo.url }}" class="img-fluid rounded-circle mb-3" 
+              <img src="{{ employee.photo.url }}" class="img-fluid rounded-circle mb-3"
                   style="width: 120px; height: 120px; object-fit: cover;" alt="{{ employee.name }}">
           {% else %}
-              <img src="{% static 'nene/img/profil_defaut.png' %}" class="img-fluid rounded-circle mb-3" 
+              <img src="{% static 'nene/img/profil_defaut.png' %}" class="img-fluid rounded-circle mb-3"
                   style="width: 120px; height: 120px; object-fit: cover;" alt="Photo de profil">
           {% endif %}
 
@@ -55,7 +55,7 @@
           </div>
 
           <!-- À propos -->
-          
+
           <div class="d-flex mt-4 flex-wrap gap-2">
             <h5 class="fw-bold ">About</h5>
             <p class="mt-1">{{ employee.about }}</p>
@@ -86,7 +86,7 @@
 
 
 
-        
+
         <!-- Colonne de droite : Projets et Experiences et éducations -->
         <div class="col-lg-9 ps-4">
 
@@ -103,7 +103,7 @@
                 <button class="nav-link" id="pills-certification-tab" data-bs-toggle="pill" data-bs-target="#pills-certification" type="button" role="tab">
                     Certifications
                 </button>
-              </li>  
+              </li>
 
               <li class="nav-item" role="presentation">
                   <button class="nav-link" id="pills-education-tab" data-bs-toggle="pill" data-bs-target="#pills-education" type="button" role="tab">Formations</button>
@@ -125,7 +125,7 @@
 
             <!-- Section Projets -->
             <div class="tab-pane fade show active mt-4" id="pills-projects" role="tabpanel">
-              <div class="row gy-4 isotope-container mt-4" data-aos="fade-up" data-aos-delay="200"> 
+              <div class="row gy-4 isotope-container mt-4" data-aos="fade-up" data-aos-delay="200">
                   {% for project in projects %}
                     <div class="col-md-6 portfolio-item">
                         <!-- Image du projet -->
@@ -145,7 +145,7 @@
                           <div class="d-flex align-items-left text-primary">
                             {% for tech in project.technologies.all|slice:":3" %}
                                 <i class="bi bi-folder2"></i> <span class="ps-2">{{ tech.name }}</span>
-                                
+
                                 {% if not forloop.last %}
                                     <span class="px-3 text-black-50">/</span>
                                 {% endif %}
@@ -179,16 +179,16 @@
                   <div class="col-12 mt-4 p-3 border rounded shadow-sm bg-light">
                       <!-- Dates -->
                       <p class="text-muted">{{ experience.start_date|date:"M Y" }} - {% if experience.end_date %}{{ experience.end_date|date:"M Y" }}{% else %}Présent{% endif %}</p>
-                      
+
                       <!-- Titre du poste -->
                       <h6 class="fw-bold text-primary">{{ experience.position }}</h6>
-                      
+
                       <!-- Entreprise -->
                       <h7 class="fw-bold"> <i class="bi bi-geo-alt"></i> {{ experience.company }} - {{ experience.city }}</h7>
-                      
+
                       <!-- Description -->
                       <p class="text-muted bordered">{{ experience.description|truncatewords:30 }}</p>
-                      
+
                       <!-- Technologies utilisées -->
                       <div class="d-flex flex-wrap">
                           {% for tech in experience.technologies.all %}
@@ -198,7 +198,7 @@
                   </div>
                   {% endfor %}
               </div>
-            </div> 
+            </div>
 
 
             <!-- Section Éducation -->
@@ -208,13 +208,13 @@
                   <div class="col-12 border rounded shadow-sm bg-light">
                       <!-- Dates -->
                       <p class="text-muted">{{ education.start_date|date:"Y" }} - {% if education.end_date %}{{ education.end_date|date:"Y" }}{% else %}Présent{% endif %}</p>
-                      
+
                       <!-- Diplôme et spécialisation -->
                       <h6 class="fw-bold">{{ education.degree }}, {{ education.specialty }}</h6>
-                      
+
                       <!-- Université et localisation -->
                       <p class="text-muted"><i class="bi bi-geo-alt"></i> {{ education.university }} - {{ education.city }}, {{ education.country }}</p>
-                      
+
                       <!-- Description -->
                       <p>{{ education.description|truncatewords:25 }}</p>
                   </div>
@@ -228,12 +228,12 @@
               <div class="row gy-4">
                   {% for certification in certifications %}
                   <div class="col-12 border rounded shadow-sm bg-light p-3 d-flex justify-content-between align-items-center">
-                      
+
                       <!-- Infos de la certification -->
                       <div>
                           <h6 class="fw-bold">{{ certification.title }}</h6>
                           <p class="text-muted mb-1">
-                              <i class="bi bi-calendar-event"></i> {{ certification.date|date:"Y" }}  
+                              <i class="bi bi-calendar-event"></i> {{ certification.date|date:"M Y" }}
                               - <i class="bi bi-award"></i> {{ certification.platform }}
                           </p>
 

@@ -5,7 +5,7 @@ from django.contrib import messages
 from .forms import ContactForm
 from django.utils.timezone import now
 from .models import Employee, Education, Experience, Project, Technology, Certification, Article
-
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -15,6 +15,7 @@ def index(request):
 #==============================================================
 #        About
 #==============================================
+
 def about(request):
     employees = Employee.objects.all()  # Récupérer tous les employés
     return render(request, 'nene/about.html', {"employees": employees})
@@ -24,6 +25,7 @@ def about(request):
 #==================================================
 #                   Blog
 #====================================
+
 def blog(request):
     articles = Article.objects.all().order_by("-published_date")  # Trier du plus récent au plus ancien
     return render(request, "nene/blog.html", {"articles": articles})
@@ -41,6 +43,7 @@ def blog_detail(request, slug):
 #=============================================
 #         CONTACT VIEW
 #=================================================
+
 def contact_view(request):
     if request.method == "POST":
         form = ContactForm(request.POST)
@@ -61,7 +64,7 @@ def contact_view(request):
 
         else:
             messages.error(request, "Une erreur est survenue. Vérifiez votre saisie.")
-    
+
     else:
         form = ContactForm()
 
@@ -95,7 +98,7 @@ def portfolio(request, slug):
 
     # Fusionner les technos sans doublons (via Python)
     technical_skills = set(tech_from_projects) | set(tech_from_experiences)
-    
+
     # recuperer les certifications
     certifications = Certification.objects.filter(employee=employee)
 
@@ -134,7 +137,7 @@ def project_detail(request, slug):
 
 
 #==============================================================
-#             
+#
 #==============================================
 
 def pricing(request):
