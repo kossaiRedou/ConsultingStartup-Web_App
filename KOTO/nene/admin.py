@@ -1,10 +1,36 @@
 from django.contrib import admin
-from .models import Contact
-from django.contrib import admin
 from django.utils.html import format_html
-from .models import Article, Skill, AboutSection
+from django.utils.safestring import mark_safe
+from .models import (
+    Article, Skill, AboutSection, Contact, Service, 
+    Employee, Project, Technology, Experience, Education, 
+    SoftSkills, Certification, Practice
+)
+
+#==========================================
+#               SERVICES
+#===========================
+@admin.register(Service)
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ("title", "short_description", "created_at")
+    search_fields = ("title", "short_description", "target_clients")
+    list_filter = ("created_at",)
+    prepopulated_fields = {"slug": ("title",)}
+    fieldsets = (
+        ("Informations Générales", {"fields": ("title", "slug", "short_description", "detailed_description")}),
+        ("Détails du Service", {"fields": ("benefits", "key_benefits", "target_clients")}),
+        ("Médias", {"fields": ("image",)}),
+        ("Appel à l'Action", {"fields": ("call_to_action",)}),
+        ("Dates", {"fields": ("created_at",)}),
+    )
+    readonly_fields = ("created_at",)
 
 
+
+
+#================================================================
+#                    CONTACT
+#=================================================
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
@@ -19,10 +45,6 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 # Article
-from django.contrib import admin
-from django.utils.html import format_html
-from .models import Article
-
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ("title", "author", "category", "published_date")
@@ -57,11 +79,6 @@ class ArticleAdmin(admin.ModelAdmin):
 #====================================================
 #            Portfolio
 #====================================
-from django.contrib import admin
-from django.utils.safestring import mark_safe
-from .models import Employee, Project, Technology, Experience, Education
-
-
 class EducationInline(admin.TabularInline):  # Affichage en tableau
     model = Education
     extra = 0
@@ -80,7 +97,7 @@ class ProjectInline(admin.TabularInline):  # Affichage en tableau
     fields = ("title", "slug", "description", "image", "technologies")
 
 
-from .models import Employee, Project, Technology, Experience, Education, SoftSkills, Certification
+
 
 class CertificationInline(admin.TabularInline):
     model = Certification
@@ -192,8 +209,6 @@ class AboutSectionAdmin(admin.ModelAdmin):
 
 
 # Nos pratiques
-from .models import Practice
-
 @admin.register(Practice)
 class PracticeAdmin(admin.ModelAdmin):
     list_display = ("number", "title")

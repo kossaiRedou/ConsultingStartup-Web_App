@@ -1,5 +1,3 @@
-
-
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -15,9 +13,26 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'alioukalmaya.pythonanywhere.com', 'kph.gabithex.fr']
 
 
+#===================================================================
+#                             Jazzin settings
+# #======================================
+# JAZZMIN_SETTINGS = {
+#     "site_title": "Tableau de bord",
+#     "site_header": "FODOR Admin",
+#     "site_brand": "Admin FODOR",
+#     "welcome_sign": "Bienvenue dans l’interface d’administration",
+
+# }
+
+# #====================================== End Jazzin setting
+
+
+
+
+
 # Application definition
 INSTALLED_APPS = [
-    'jazzmin',
+    'jazzmin',  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

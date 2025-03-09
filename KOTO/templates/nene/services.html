@@ -1,105 +1,64 @@
 {% extends "nene/base.html" %}
-
 {% load static %}
 
 {% block content %}
 
     <!-- Page Title -->
     <div class="page-title accent-background">
-      <div class="container d-lg-flex justify-content-between align-items-center">
-        <h1 class="mb-2 mb-lg-0">Services</h1>
-        <nav class="breadcrumbs">
-          <ol>
-            <li><a href="{% url 'index' %}">Home</a></li>
-            <li class="current">Services</li>
-          </ol>
-        </nav>
-      </div>
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <h1 class="mb-2 mb-lg-0">Nos Services</h1>
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a href="{% url 'index' %}">Accueil</a></li>
+                    <li class="current">Services</li>
+                </ol>
+            </nav>
+        </div>
     </div><!-- End Page Title -->
 
     <!-- Services Section -->
     <section id="services" class="services section light-background">
+        <div class="container">
+            <div class="row gy-5">
+                
+                {% for service in services %}
+                    <div class="col-lg-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+                        <div class="service-item position-relative p-4 shadow-sm rounded">
+                            
+                            <!-- Image du Service -->
+                            {% if service.image %}
+                                <div class="service-img mb-3">
+                                    <img src="{{ service.image.url }}" alt="{{ service.title }}" class="img-fluid rounded">
+                                </div>
+                            {% endif %}
 
-      <div class="container">
+                            <!-- Titre -->
+                            <h3 class="mb-0">{{ service.title }}</h3>
 
-        <div class="row gy-4">
+                            <!-- Description courte -->
+                            <p class="text-muted fst-italic mt-2">{{ service.short_description }}</p>
 
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-            <div class="service-item item-cyan position-relative">
-              <div class="icon">
-                <i class="bi bi-bar-chart-line"></i>
-              </div>
-              <a href="{% url 'contact' %}" class="stretched-link">
-                <h3>Analyse des tendances sectorielles</h3>
-              </a>
-              <p>Gabithex vous aide à identifier les évolutions du marché grâce à une veille stratégique approfondie et une analyse des tendances émergentes.</p>
+                            <!-- Liste des Bénéfices -->
+                            {% if service.benefits_list %}
+                                <ul class="list-unstyled mt-3">
+                                    {% for benefit in service.benefits_list %}
+                                        <li><i class="bi bi-check-circle text-success"></i> {{ benefit}}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+
+                            <!-- Bouton d'action -->
+                            <div class="text-end mt-4">
+                                <a href="{% url 'service_detail' service.slug %}" class="btn btn-primary">
+                                    Voir plus <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div><!-- End Service Item -->
+                {% endfor %}
+
             </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-            <div class="service-item item-orange position-relative">
-              <div class="icon">
-                <i class="bi bi-lightbulb"></i>
-              </div>
-              <a href="{% url 'contact' %}" class="stretched-link">
-                <h3>Veille concurrentielle</h3>
-              </a>
-              <p>Surveillez la concurrence avec des outils avancés de collecte et d’analyse de données afin d’optimiser votre positionnement et anticiper les stratégies du marché.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-            <div class="service-item item-teal position-relative">
-              <div class="icon">
-                <i class="bi bi-bar-chart"></i>
-              </div>
-              <a href="{% url 'contact' %}"class="stretched-link">
-                <h3>Visualisation des données et Dashboards</h3>
-              </a>
-              <p>Exploitez pleinement vos données grâce à des tableaux de bord interactifs (Power BI, SAS Viya) pour une prise de décision rapide et efficace.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-            <div class="service-item item-red position-relative">
-              <div class="icon">
-                <i class="bi bi-graph-up"></i>
-              </div>
-              <a href="{% url 'contact' %}" class="stretched-link">
-                <h3>Études de marché et segmentation</h3>
-              </a>
-              <p>Nous réalisons des études de marché approfondies et des segmentations clients avancées pour orienter vos stratégies de développement.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-            <div class="service-item item-indigo position-relative">
-              <div class="icon">
-                <i class="bi bi-code-slash"></i>
-              </div>
-              <a href="{% url 'contact' %}" class="stretched-link">
-                <h3>Développement d’applications Web</h3>
-              </a>
-              <p>Nous développons des applications web sur mesure avec Django et Python pour optimiser la gestion de vos données et automatiser vos processus.</p>
-            </div>
-          </div><!-- End Service Item -->
-
-          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-            <div class="service-item item-pink position-relative">
-              <div class="icon">
-                <i class="bi bi-search"></i>
-              </div>
-              <a href="{% url 'contact' %}"class="stretched-link">
-                <h3>Web Scraping et écoute stratégique</h3>
-              </a>
-              <p>Collectez des données pertinentes sur le web pour affiner vos décisions stratégiques et surveiller l’évolution du marché en temps réel.</p>
-            </div>
-          </div><!-- End Service Item -->
-
         </div>
-
-      </div>
-
     </section><!-- /Services Section -->
 
 {% endblock %}

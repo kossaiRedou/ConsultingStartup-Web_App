@@ -24,8 +24,7 @@ urlpatterns = [
     
     path('pricing/', views.pricing, name='pricing'),
     
-    path('service-details/', views.service_details, name='service-details'),
-    
+    path('services/<slug:slug>/', views.service_detail, name='service_detail'),
     path('services/', views.services, name='services'),
     
     path('starter-page/', views.starter_page, name='starter-page'),

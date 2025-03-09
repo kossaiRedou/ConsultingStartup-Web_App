@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from .forms import ContactForm
 from django.utils.timezone import now
-from .models import Employee, Education, Experience, Project, Technology, Certification, Article, AboutSection, Practice
+from .models import Employee, Education, Experience, Project, Technology, Certification, Article, AboutSection, Practice, Service
 from django.contrib.auth.decorators import login_required
 
 
@@ -149,11 +149,6 @@ def project_detail(request, slug):
 def pricing(request):
     return render(request, 'nene/pricing.html', {"timestamp": now().timestamp()})
 
-def service_details(request):
-    return render(request, 'nene/service-details.html', {"timestamp": now().timestamp()})
-
-def services(request):
-    return render(request, 'nene/services.html', {"timestamp": now().timestamp()})
 
 def starter_page(request):
     return render(request, 'nene/starter-page.html', {"timestamp": now().timestamp()})
@@ -166,6 +161,27 @@ def testimonials(request):
 
 
 
-#===================================
-#            Section about
+
+
+#=============================================================
+#            Services
 #==============================
+def services(request):
+    services_list = Service.objects.all()
+    
+    # Prétraiter les données pour le template
+    for service in services_list:
+        service.benefits_list = service.benefits.split(",") if service.benefits else []
+    
+    return render(request, 'nene/services.html', {'services': services_list})
+
+
+
+
+def service_detail(request, slug):
+    service = get_object_or_404(Service, slug=slug)
+    
+    # Préparer la liste des bénéfices pour le template
+    service.benefits_list = service.benefits.split(",") if service.benefits else []
+    
+    return render(request, 'nene/service_detail.html', {'service': service})

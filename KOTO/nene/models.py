@@ -28,7 +28,7 @@ class Contact(models.Model):
 #==============================
 class Article(models.Model):
     title = models.CharField(max_length=255, verbose_name="Titre")
-    slug = models.SlugField(unique=True, blank=True, verbose_name="Slug")
+    slug = models.SlugField(unique=False, blank=True, verbose_name="Slug") # a revoir
     author = models.CharField(max_length=100, verbose_name="Auteur")
     category = models.CharField(max_length=100, verbose_name="Catégorie")
     content = models.TextField(verbose_name="Contenu (Markdown)")  # Markdown pour le texte et le code
@@ -70,7 +70,7 @@ class SoftSkills(models.Model):
 class Employee(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True, null=True)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
 
     linkedin = models.URLField(blank=True, null=True)
@@ -81,9 +81,9 @@ class Employee(models.Model):
     photo = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
     location = models.CharField(max_length=100)
 
-    about = models.TextField(max_length=1200)
+    about = models.TextField(max_length=1200, null=True)
     softSkills = models.ManyToManyField(SoftSkills, related_name='employees')
-    cv = models.FileField(upload_to='KOTO\media\cvs', blank=True, null=True)  # Ajout du champ CV
+    cv = models.FileField(upload_to='KOTO/media/cvs', blank=True, null=True)  # Ajout du champ CV
 
     def save(self, *args, **kwargs):
         # Vérifier si l'objet est nouveau ou si le nom a changé
@@ -114,7 +114,7 @@ class Technology(models.Model):
 class Project(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='projects')
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True, null=True)
+    slug = models.SlugField(unique=False, blank=True, null=True) # a revoir
 
     date = models.DateField(default=now)
     description = models.TextField()
@@ -236,10 +236,90 @@ class AboutSection(models.Model):
         return self.title
     
     
-    
-# Nos pratiques:
-from django.db import models
 
+#========================================================
+#                   SERVICES
+#========================================
+
+class Service(models.Model):
+    title = models.CharField(
+        max_length=255, 
+        verbose_name="Titre du service"
+    )
+    slug = models.SlugField(
+        unique=True, 
+        blank=True, 
+        null=True, 
+        editable=False
+    )
+    short_description = models.CharField(
+        max_length=255, 
+        null=True, 
+        verbose_name="Description courte",
+        help_text="Une phrase percutante qui résume le service."
+    )
+    detailed_description = models.TextField(
+        null=True, 
+        verbose_name="Description complète", 
+        help_text="Explique en quoi ce service est utile et ses avantages."
+    )
+    benefits = models.TextField(
+        null=True, 
+        verbose_name="Avantages clés", 
+        help_text="Liste des bénéfices concrets, séparés par des virgules."
+    )
+    target_clients = models.CharField(
+        max_length=255, 
+        null=True, 
+        verbose_name="Public cible", 
+        help_text="Ex: Startups, PME, Grandes entreprises, Freelancers..."
+    )
+    image = models.ImageField(
+        upload_to="services/", 
+        blank=True, 
+        null=False, 
+        verbose_name="Image illustrant le service"
+    )
+    call_to_action = models.CharField(
+        max_length=255, 
+        null=True, 
+        blank=True, 
+        verbose_name="Texte d'appel à l'action", 
+        help_text="Ex: Contactez-nous pour une consultation gratuite"
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True, 
+        verbose_name="Date de création"
+    )
+
+    class Meta:
+        verbose_name = "Service"
+        verbose_name_plural = "Services"
+        ordering = ['created_at']  # Optionnel, pour trier les services par date de création
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.title)
+            unique_slug = base_slug
+            counter = 1
+            while Service.objects.filter(slug=unique_slug).exists():
+                unique_slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = unique_slug
+        super().save(*args, **kwargs)
+
+
+
+
+
+
+
+
+
+# Nos pratiques:
 class Practice(models.Model):
     number = models.PositiveIntegerField(verbose_name="Numéro", unique=True)  # Empêche les doublons
     title = models.CharField(max_length=255, verbose_name="Titre")
@@ -257,5 +337,6 @@ class Practice(models.Model):
     def __str__(self):
         """Affichage propre dans Django Admin et autres vues"""
         return f"{self.formatted_number()}. {self.title}"
+
 
 

@@ -1,0 +1,78 @@
+{% extends "nene/base.html" %}
+{% load static %}
+
+{% block content %}
+
+    <!-- Page Title -->
+    <div class="page-title accent-background">
+        <div class="container d-lg-flex justify-content-between align-items-center">
+            <h1 class="mb-2 mb-lg-0">{{ service.title }}</h1>
+            <nav class="breadcrumbs">
+                <ol>
+                    <li><a href="{% url 'index' %}">Accueil</a></li>
+                    <li><a href="{% url 'services' %}">Services</a></li>
+                    <li class="current">{{ service.title }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div><!-- End Page Title -->
+
+    <!-- Service Detail Section -->
+    <section id="service-detail" class="section light-background">
+        <div class="container">
+            <div class="row gy-4 align-items-center">
+                
+                <!-- Image du service -->
+                {% if service.image %}
+                    <div class="col-lg-5" data-aos="fade-right">
+                        <img src="{{ service.image.url }}" alt="{{ service.title }}" class="img-fluid rounded shadow">
+                    </div>
+                {% endif %}
+
+                <!-- Service Content -->
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="service-header d-flex align-items-center mb-3">
+                        {% if service.icon_class %}
+                            <div class="icon me-3">
+                                <i class="{{ service.icon_class }} display-4 text-primary"></i>
+                            </div>
+                        {% endif %}
+                        <h2 class="mb-0">{{ service.title }}</h2>
+                    </div>
+
+                    {% if service.tagline %}
+                        <p class="text-muted fst-italic">{{ service.tagline }}</p>
+                    {% endif %}
+
+                    <p>{{ service.description }}</p>
+
+                    <!-- Liste des Bénéfices -->
+                    {% if service.benefits_list %}
+                        <div class="mt-4">
+                            <h4>Pourquoi choisir ce service ?</h4>
+                            <ul class="list-unstyled">
+                                {% for benefit in service.benefits_list %}
+                                    <li><i class="bi bi-check-circle text-success"></i> {{ benefit }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <p class="text-secondary mt-3"><i class="bi bi-calendar"></i> Ajouté le : {{ service.created_at|date:"d M Y" }}</p>
+
+                    <!-- Call to Action -->
+                    <div class="mt-4">
+                        <a href="{% url 'contact' %}" class="btn btn-primary">
+                            <i class="bi bi-envelope"></i> Contactez-nous
+                        </a>
+                        <a href="{% url 'services' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Retour aux services
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section><!-- /Service Detail Section -->
+
+{% endblock %}
