@@ -20,36 +20,70 @@
     {% load static %}
 
     <!-- About Section -->
-    <section id="about" class="about section">
-      <div class="container">
-        <div class="row position-relative">
-          <div class="col-lg-7 about-img" data-aos="zoom-out" data-aos-delay="200">
-            <img src="{{ about.image.url|default:'{% static "nene/img/about.jpg" %}' }}" class="img-fluid" alt="About Image">
-          </div>
+    <section id="about-section">
+      <div class="loading text-center">Chargement des données...</div> <!-- Message de chargement -->
+    </section>
 
-          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
-            <h2 class="inner-title">{{ about.title|default:"Des analyses précises pour des actions impactantes. FODOR, le radar intelligent de votre marché." }}</h2>
-            <div class="our-story">
-              <h4>{{ about.year|default:"2024" }}</h4>
-              <h3>{{ about.history_title|default:"Notre histoire" }}</h3>
-              <p>{{ about.history_text|default:"FODOR est une initiative ambitieuse combinant intelligence artificielle et analyse stratégique..." }}</p>
-              <ul>
-                <li><i class="bi bi-check-circle"></i> <span>Analyse des tendances sectorielles et veille concurrentielle</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>Identification des opportunités de croissance et benchmarks</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>Développement d’outils interactifs et dashboards sur mesure</span></li>
-              </ul>
-              <p>{{ about.mission|default:"Notre mission est d’offrir des solutions stratégiques basées sur les données..." }}</p>
-              <div class="watch-video d-flex align-items-center position-relative">
-                <i class="bi bi-play-circle"></i>
-                <a href="{{ about.video_url|default:'https://www.youtube.com/watch?v=Y7f98aduVJ8' }}" class="glightbox stretched-link">
-                  Ecouter les mots de <span>Mr. Safaye Diallo</span> - CO
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- jQuery (nécessaire pour AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      $(document).ready(function() {
+          $("#about-section").load("{% url 'aboutSection' %}"); // Charge dynamiquement la section Clients
+      });
+    </script>
+    <!-- /About Section -->
+
+
+
+
+    <!-- Vision Section -->
+    <section id="vision" class="vision section">
+      <div class="container section-title" data-aos="fade-up">
+          <h2>Notre ADN</h2>
+          <p>Notre vision est d'être à la pointe de l'innovation en combinant intelligence artificielle et analyse stratégique pour offrir des solutions sur mesure aux entreprises.</p>
       </div>
-    </section><!-- /About Section -->
+
+      <div class="container">
+          <div class="row">
+              {% for item in hero_carousel %}
+                  {% if forloop.counter|divisibleby:2 %}
+                      <!-- L'image à droite et la description à gauche -->
+                      <div class="col-lg-12 d-flex align-items-center mb-4" id="vision-{{ item.order }}">
+                          <div class="row w-100">
+                              <div class="col-md-6">
+                                  <img src="{{ item.image.url }}" alt="Vision Image" class="img-fluid">
+                              </div>
+                              <div class="col-md-6">
+                                  <h1 class="text-primary display-4 fw-bold">{{ forloop.counter }}.</h1>
+                                  <h3>{{ item.title }}</h3>
+                                  <p>{{ item.description }}</p>
+                              </div>
+                          </div>
+                      </div>
+                  {% else %}
+                      <!-- L'image à gauche et la description à droite -->
+                      <div class="col-lg-12 d-flex align-items-center mb-4" id="vision-{{ item.order }}">
+                          <div class="row w-100">
+                              <div class="col-md-6">
+                                  <h1 class="text-primary display-4 fw-bold">{{ forloop.counter }}.</h1>
+                                  <h3>{{ item.title }}</h3>
+                                  <p>{{ item.description }}</p>
+                              </div>
+                              <div class="col-md-6">
+                                  <img src="{{ item.image.url }}" alt="Vision Image" class="img-fluid">
+                              </div>
+                          </div>
+                      </div>
+                  {% endif %}
+              {% empty %}
+                  <p>Aucun élément de vision disponible.</p>
+              {% endfor %}
+          </div>
+      </div>
+    </section>
+<!-- End Vision Section -->
+
 
 
     <!-- Team Section -->
@@ -127,7 +161,17 @@
 
 
     <!-- Clients Section -->
-    {% include "nene/liste_clients.html" %}
-    <!-- /Clients Section -->
+    <section id="clients-section">
+      <div class="loading text-center">Chargement des clients...</div> <!-- Message de chargement -->
+    </section>
+
+
+    <script>
+      $(document).ready(function() {
+          $("#clients-section").load("{% url 'customers' %}"); // Charge dynamiquement la section Clients
+      });
+    </script>
+
+    <!-- End Clients Section-->
 
 {% endblock %}

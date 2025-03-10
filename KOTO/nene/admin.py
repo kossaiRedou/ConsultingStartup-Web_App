@@ -2,10 +2,22 @@ from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from .models import (
-    Article, Skill, AboutSection, Contact, Service, 
+    Article, Skill, AboutSection, Contact, Service, SoftSkills,
     Employee, Project, Technology, Experience, Education, 
-    SoftSkills, Certification, Practice
+    SoftSkills, Certification, Practice, Customer, HeroCarousel
 )
+
+
+
+#---------------------------------- soft skils
+class SoftSkillsAdmin(admin.ModelAdmin):
+    list_display = ('name',)  # Afficher le champ 'name' dans la liste des objets
+    search_fields = ('name',)  # Permettre la recherche par 'name'
+
+# Enregistrer le modèle SoftSkills avec l'admin
+admin.site.register(SoftSkills, SoftSkillsAdmin)
+
+
 
 #==========================================
 #               SERVICES
@@ -214,3 +226,21 @@ class PracticeAdmin(admin.ModelAdmin):
     list_display = ("number", "title")
     ordering = ("number",)
     search_fields = ("title", "description")
+
+
+
+# Nos Clients
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('nom', 'secteur', 'logo')  # Affichage dans la liste admin
+    list_filter = ('secteur',)  # Filtrage par secteur
+    search_fields = ('nom',)  # Barre de recherche par nom
+
+admin.site.register(Customer, CustomerAdmin)
+
+
+# Carousel Items
+@admin.register(HeroCarousel)
+class HeroCarouselAdmin(admin.ModelAdmin):
+    list_display = ('title', 'order', 'image')
+    list_editable = ('order',)
+    search_fields = ('title',)

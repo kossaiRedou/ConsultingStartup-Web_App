@@ -31,6 +31,12 @@ urlpatterns = [
     
     path('team/', views.team, name='team'),
     path('testimonials/', views.testimonials, name='testimonials'),
+    
+    
+    #__________________________________Included sections
+    path('customers/', views.customerSection, name='customers'),
+    path('aboutSection/', views.aboutSection, name='aboutSection'),
+    
 ]
 
 # Ajoute cette ligne pour servir les fichiers médias en mode développement

@@ -153,6 +153,22 @@ class Experience(models.Model):
 
     class Meta:
         ordering = ['-start_date']
+        
+
+    def save(self, *args, **kwargs):
+        # Enregistrer d'abord l'expérience
+        super().save(*args, **kwargs)
+
+        # Si cette expérience est marquée comme étant "actuelle"
+        if self.is_current:
+            employee = self.employee
+            # Mise à jour de la position et de la location de l'employé
+            employee.position = self.position
+            employee.location = self.city
+            # Sauvegarde de l'employé avec les nouvelles informations
+            employee.save(update_fields=['position', 'location'])
+            
+            
 
     def __str__(self):
         end_date_display = self.end_date.strftime("%Y") if self.end_date else "En cours"
@@ -340,3 +356,41 @@ class Practice(models.Model):
 
 
 
+#========================================================
+#                   Customers
+#========================================
+
+class Customer(models.Model):
+    SECTEURS_CHOICES = [
+        ('tech', 'Technologie'),
+        ('finance', 'Finance'),
+        ('sante', 'Santé'),
+        ('ecommerce', 'E-commerce'),
+        ('industrie', 'Industrie'),
+        ('autre', 'Autre'),
+    ]
+
+    nom = models.CharField(max_length=255)
+    logo = models.ImageField(upload_to='clients/')
+    secteur = models.CharField(max_length=50, choices=SECTEURS_CHOICES, default='autre')
+
+    def __str__(self):
+        return f"{self.nom} - {self.get_secteur_display()}"
+
+
+
+
+#=========================================
+# Carousel items
+#=====================
+class HeroCarousel(models.Model):
+    image = models.ImageField(upload_to='hero-carousel/')
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    order = models.IntegerField(default=0)  # Permet de trier les éléments du carrousel
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['order']  # Trier les éléments du carrousel par ordre croissant

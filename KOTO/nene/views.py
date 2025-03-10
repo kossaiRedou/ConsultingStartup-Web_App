@@ -4,27 +4,57 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from .forms import ContactForm
 from django.utils.timezone import now
-from .models import Employee, Education, Experience, Project, Technology, Certification, Article, AboutSection, Practice, Service
+from .models import Employee, Customer, HeroCarousel, Education, Experience, Project, Technology, Certification, Article, AboutSection, Practice, Service
 from django.contrib.auth.decorators import login_required
 
 
 
 def index(request):
-    return render(request, 'nene/index.html', {"timestamp": now().timestamp()})
+    # Récupérer tous les éléments du carrousel
+    hero_carousel = HeroCarousel.objects.all()
+    return render(request, 'nene/index.html', {"hero_carousel":hero_carousel, "timestamp": now().timestamp()})
 
 #==============================================================
 #        About
 #==============================================
 def about(request):
     employees = Employee.objects.all()  # Récupérer tous les employés
-    about_data = AboutSection.objects.first()  # Récupérer la première entrée About
     practices = Practice.objects.all().order_by("number")  # Tri par numéro croissant
+    # Récupérer tous les éléments du carrousel
+    hero_carousel = HeroCarousel.objects.all()
     return render(request, 'nene/about.html', {
         "employees": employees,
-        "about": about_data,
-        'practices': practices
-    })
+        'practices': practices,
+        "hero_carousel": hero_carousel,
+        "timestamp": now().timestamp()
+        })
+    
 
+
+
+
+#===================================================================
+#          Views for included templates
+#===========================
+
+#About section
+def aboutSection(request):
+    about_data = AboutSection.objects.first()  # Récupérer la première entrée About
+    return render(request, 'nene/aboutSection.html', {"about": about_data,})
+
+
+
+#liste client section
+def customerSection(request):
+    #clients_by_sector = {}
+    clients = Customer.objects.all()
+
+    # for client in clients:
+    #     if client.secteur not in clients_by_sector:
+    #         clients_by_sector[client.secteur] = []
+    #     clients_by_sector[client.secteur].append(client)
+
+    return render(request, 'nene/liste_clients.html', {'clients': clients}, {"timestamp": now().timestamp()})
 
 
 
