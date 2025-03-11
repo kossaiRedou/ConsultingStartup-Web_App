@@ -10,7 +10,8 @@ SECRET_KEY = 'django-insecure-eflhmw52v+oeiee1&*cwh)ut!iflxz6g1etldcjju952a()hp(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'alioukalmaya.pythonanywhere.com', 'kph.gabithex.fr']
+ALLOWED_HOSTS = ['127.0.0.1', 'alioukalmaya.pythonanywhere.com', 'www.fodor360.fr', 'fodor360.fr']
+
 
 
 
@@ -22,7 +23,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'alioukalmaya.pythonanywhere.com', 'kph.gabithex.f
 INSTALLED_APPS = [
     "admin_interface",
     "colorfield",
- 
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
