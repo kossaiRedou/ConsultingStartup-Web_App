@@ -13,18 +13,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'alioukalmaya.pythonanywhere.com', 'kph.gabithex.fr']
 
 
-#===================================================================
-#                             Jazzin settings
-# #======================================
-# JAZZMIN_SETTINGS = {
-#     "site_title": "Tableau de bord",
-#     "site_header": "FODOR Admin",
-#     "site_brand": "Admin FODOR",
-#     "welcome_sign": "Bienvenue dans l’interface d’administration",
-
-# }
-
-# #====================================== End Jazzin setting
 
 
 
@@ -32,7 +20,9 @@ ALLOWED_HOSTS = ['127.0.0.1', 'alioukalmaya.pythonanywhere.com', 'kph.gabithex.f
 
 # Application definition
 INSTALLED_APPS = [
-    'jazzmin',  
+    "admin_interface",
+    "colorfield",
+ 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +31,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'nene',
 ]
+
+
+#===================================================================
+#                             Jazzin settings
+# #======================================
+
+
+
+# #====================================== End Jazzin setting
 
 
 MIDDLEWARE = [

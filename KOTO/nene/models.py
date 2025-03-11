@@ -266,7 +266,7 @@ class Service(models.Model):
         unique=True, 
         blank=True, 
         null=True, 
-        editable=False
+        #editable=False
     )
     short_description = models.CharField(
         max_length=255, 
@@ -326,6 +326,20 @@ class Service(models.Model):
                 counter += 1
             self.slug = unique_slug
         super().save(*args, **kwargs)
+
+
+
+class Testimonial(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Nom du client")
+    feedback = models.TextField(verbose_name="Témoignage")
+    company = models.CharField(max_length=255, null=True, blank=True, verbose_name="Entreprise (optionnel)")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.name} - {self.company if self.company else 'Indépendant'}"
 
 
 

@@ -2410,3 +2410,121 @@ section,
   overflow-x: auto;
   font-family: "Courier New", monospace;
 }
+
+
+
+/*___________________________________ Service*/
+/* Animation de flottement */
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Appliquer l'animation à toutes les cartes */
+.service-item {
+  transition: transform 0.03s ease-out, box-shadow 0.03s ease-out;
+  animation: floating 3s infinite ease-in-out;
+}
+
+/* Effet de survol : la carte monte et l'ombre s'intensifie */
+.service-item:hover {
+  transform: translateY(-15px) scale(1.05); /* Monte un peu plus haut et grandit légèrement */
+  box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.25); /* Ombre plus marquée */
+  animation: none; /* Désactive l'animation pour éviter les conflits */
+}
+
+
+/*----------------------------------------------
+                  SERVICE DETAIL
+------------------------------------------------*/
+/* Effet flottant */
+@keyframes floating {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: floating 3s infinite ease-in-out;
+}
+
+/* Animation sur l’image */
+.service-image-wrapper {
+  width: 100%;  /* Utilise tout l'espace disponible */
+  max-width: 400px; /* Ajuste la taille max selon ton besoin */
+  display: flex;
+  justify-content: center;
+}
+
+.service-image {
+  width: 100%; /* L'image prend toute la largeur de son conteneur */
+  height: 100%; /* Maintient les proportions */
+  object-fit: contain; /* Empêche le recadrage */
+  border-radius: 10px; /* Ajoute un effet arrondi */
+}
+
+
+.service-image:hover {
+  transform: scale(1.1);
+}
+
+/* Style du carousel */
+.carousel-inner {
+  max-width: 600px;
+  margin: auto;
+}
+
+.carousel-item {
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Boutons de navigation visibles sur mobile */
+.custom-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  z-index: 10;
+}
+
+.carousel-control-prev {
+  left: 10px;
+}
+
+.carousel-control-next {
+  right: 10px;
+}
+
+/* Style des cartes de témoignages */
+.testimonial-card {
+  background: white;
+  padding: 15px;
+  border-radius: 15px;
+  border: 2px solid rgba(0, 123, 255, 0.2);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  margin: auto;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive: agrandir les icônes sur mobile */
+@media (max-width: 768px) {
+  .custom-nav {
+      display: block !important;
+  }
+
+  .carousel-control-prev {
+      left: -5px;
+  }
+
+  .carousel-control-next {
+      right: -5px;
+  }
+}

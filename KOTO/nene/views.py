@@ -194,7 +194,7 @@ def testimonials(request):
 
 
 #=============================================================
-#            Services
+#            Service
 #==============================
 def services(request):
     services_list = Service.objects.all()
@@ -203,15 +203,24 @@ def services(request):
     for service in services_list:
         service.benefits_list = service.benefits.split(",") if service.benefits else []
     
-    return render(request, 'nene/services.html', {'services': services_list})
+    return render(request, 'nene/services.html', {'services': services_list, "timestamp": now().timestamp()})
 
 
 
+
+from .models import Service, Testimonial
 
 def service_detail(request, slug):
     service = get_object_or_404(Service, slug=slug)
     
-    # Préparer la liste des bénéfices pour le template
+    # Préparer les bénéfices pour le template
     service.benefits_list = service.benefits.split(",") if service.benefits else []
     
-    return render(request, 'nene/service_detail.html', {'service': service})
+    # Charger les témoignages
+    testimonials = Testimonial.objects.all()[:5]  # Récupère les 5 derniers témoignages
+    
+    return render(request, 'nene/service_detail.html', {
+        'service': service,
+        'testimonials': testimonials,
+        "timestamp": now().timestamp()
+    })

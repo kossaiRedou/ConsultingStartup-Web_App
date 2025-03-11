@@ -30,7 +30,7 @@ class ServiceAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
     fieldsets = (
         ("Informations Générales", {"fields": ("title", "slug", "short_description", "detailed_description")}),
-        ("Détails du Service", {"fields": ("benefits", "key_benefits", "target_clients")}),
+        ("Détails du Service", {"fields": ("benefits",  "target_clients")}),
         ("Médias", {"fields": ("image",)}),
         ("Appel à l'Action", {"fields": ("call_to_action",)}),
         ("Dates", {"fields": ("created_at",)}),
@@ -56,33 +56,18 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 
-# Article
-@admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ("title", "author", "category", "published_date")
-    search_fields = ("title", "author", "category")
-    list_filter = ("category", "published_date")
-    ordering = ("-published_date",)
+    list_filter = ("category", "published_date", "author")
+    search_fields = ("title", "author", "category", "content")
     prepopulated_fields = {"slug": ("title",)}
-    readonly_fields = ("published_date", "preview_markdown")  # Empêche toute modification
 
-    fieldsets = (
-        ("Informations Générales", {
-            "fields": ("title", "slug", "author", "category"),
-        }),
-        ("Contenu", {
-            "fields": ("content", "preview_markdown"),
-        }),
-        ("Publication", {
-            "fields": ("published_date",),  # Affiché en lecture seule
-        }),
-    )
+    def save_model(self, request, obj, form, change):
+        if not obj.slug:
+            obj.slug = slugify(obj.title)
+        super().save_model(request, obj, form, change)
 
-    def preview_markdown(self, obj):
-        """Affiche un aperçu du contenu Markdown converti en HTML"""
-        return format_html(obj.render_markdown())
-
-    preview_markdown.short_description = "Aperçu du Markdown"
+admin.site.register(Article, ArticleAdmin)
 
 
 

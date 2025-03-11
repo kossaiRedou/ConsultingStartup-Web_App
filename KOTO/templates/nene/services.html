@@ -19,40 +19,40 @@
     <!-- Services Section -->
     <section id="services" class="services section light-background">
         <div class="container">
-            <div class="row gy-5">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 
                 {% for service in services %}
-                    <div class="col-lg-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
-                        <div class="service-item position-relative p-4 shadow-sm rounded">
+                    <div class="col">
+                        <div class="card h-100 shadow-sm service-item position-relative">
                             
                             <!-- Image du Service -->
                             {% if service.image %}
-                                <div class="service-img mb-3">
-                                    <img src="{{ service.image.url }}" alt="{{ service.title }}" class="img-fluid rounded">
-                                </div>
+                                <img src="{{ service.image.url }}" alt="{{ service.title }}" class="card-img-top">
                             {% endif %}
 
-                            <!-- Titre -->
-                            <h3 class="mb-0">{{ service.title }}</h3>
+                            <div class="card-body">
+                                <!-- Titre -->
+                                <h5 class="card-title">{{ service.title }}</h5>
 
-                            <!-- Description courte -->
-                            <p class="text-muted fst-italic mt-2">{{ service.short_description }}</p>
+                                <!-- Description courte -->
+                                <p class="card-text text-muted">{{ service.short_description }}</p>
 
-                            <!-- Liste des Bénéfices -->
-                            {% if service.benefits_list %}
-                                <ul class="list-unstyled mt-3">
-                                    {% for benefit in service.benefits_list %}
-                                        <li><i class="bi bi-check-circle text-success"></i> {{ benefit}}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-
-                            <!-- Bouton d'action -->
-                            <div class="text-end mt-4">
-                                <a href="{% url 'service_detail' service.slug %}" class="btn btn-primary">
-                                    Voir plus <i class="bi bi-arrow-right"></i>
-                                </a>
+                                <!-- Liste des Bénéfices -->
+                                {% if service.benefits_list %}
+                                    <ul class="list-unstyled mt-2">
+                                        {% for benefit in service.benefits_list %}
+                                            <li><i class="bi bi-check-circle text-success"></i> {{ benefit }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
                             </div>
+
+                            <!-- Pied de carte avec bouton -->
+                            <div class="card-footer bg-white text-center d-flex justify-content-center">
+                                <a href="{% url 'service_detail' service.slug %}" class="btn btn-primary">
+                                    En savoir plus <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>                            
                         </div>
                     </div><!-- End Service Item -->
                 {% endfor %}
