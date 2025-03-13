@@ -242,10 +242,12 @@
                           <p class="mb-1"><strong>Compétences :</strong></p>
                           <div class="d-flex flex-wrap">
                               {% for skill in certification.skills.all %}
-                              <span class="badge bg-primary me-2">{{ skill.name }}</span>
+                              <span class="badge text-secondary me-2">{{ skill.name }}</span>
                               {% endfor %}
                           </div>
                           {% endif %}
+
+
 
                           <!-- Lien vers la certification -->
                           {% if certification.link %}
