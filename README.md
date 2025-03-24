@@ -1,7 +1,14 @@
 # Fodor-Analytics Startup - Web Application
 
 ## Description
-Kossairedou Consulting Startup Web App est une application web développée avec Django. Elle est conçue pour gérer et afficher des informations sur les services, les clients, les projets, les témoignages et bien plus encore. Cette application est développée avec une approche dynamique et modulaire, permettant à l'administrateur de modifier tous les éléments (contenu) depuis l'espace admin.
+Fodor-Analytics Startup Web App est une application web développée avec Django. Elle est conçue pour gérer et afficher des informations sur les services, les clients, les projets, les témoignages et bien plus encore. Cette application est développée avec une approche dynamique et modulaire, permettant à l'administrateur de modifier tous les éléments (contenu) depuis l'espace admin.
+
+## Aperçu
+![Diagramme de la base de données](."C:\Users\lenovo\Downloads\fodor-Analytics.png")
+
+![Capture d'écran du site](."C:\Users\lenovo\Pictures\Screenshots\site.png")
+
+🔗 **Lien vers le site :** [Fodor-Analytics Consulting Startup Web App](https://www.fodor360.fr/portfolio/aliou_diallo/)
 
 ## Fonctionnalités
 - Gestion des services offerts par l'entreprise
@@ -13,8 +20,7 @@ Kossairedou Consulting Startup Web App est une application web développée avec
 - Gestion du portfolio pour les membres de l'équipe
 
 ## Structure du projet
-Le projet est organisé comme suit [Structure hierachique du projet Django](https://gitingest.com/kossaiRedou/ConsultingStartup-Web_App)
-
+Le projet est organisé comme suit [Structure hiérarchique du projet Django](https://gitingest.com/kossaiRedou/ConsultingStartup-Web_App)
 
 ## Prérequis
 
@@ -31,51 +37,7 @@ Pour réussir, assurez-vous d'avoir des connaissances en programmation Python et
    ```sh
    git clone <lien-du-repo>
    cd kossairedou-consultingstartup-web_app/KOTO/
-   ```
-
-2. Créez un environnement virtuel et activez-le :
-
-   ```sh
-   python -m venv env
-   source env/bin/activate  # Sur macOS/Linux
-   env\Scripts\activate  # Sur Windows
-   ```
-
-3. Installez les dépendances :
-
-   ```sh
-   pip install -r requirements.txt
-   ```
-
-4. Appliquez les migrations :
-
-   ```sh
-   python manage.py migrate
-   ```
-
-5. Démarrez le serveur :
-
-   ```sh
-   python manage.py runserver
-   ```
-
-L'application sera accessible sur `http://127.0.0.1:8000/`
-
-## Administration Django
-Pour accéder à l'interface d'administration :
-
-1. Créez un superutilisateur :
-   ```sh
-   python manage.py createsuperuser
-   ```
-2. Connectez-vous à l'interface d'administration via `http://127.0.0.1:8000/admin/`.
-
-## Déploiement
-Pour déployer l'application sur un serveur, choisissez la solution qui correspond le mieux à vos besoins.
-
-## Auteur
-Développé par (Aliou DIALLO) Kossairedou
 
 ## Licence
-Ce projet est sous licence MIT.
 
+Ce projet est sous licence MIT.
