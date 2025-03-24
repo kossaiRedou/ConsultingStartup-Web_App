@@ -13,20 +13,7 @@ Kossairedou Consulting Startup Web App est une application web développée avec
 - Gestion du portfolio pour les membres de l'équipe
 
 ## Structure du projet
-Le projet est organisé comme suit :
-
-
-kossairedou-consultingstartup-web_app/
-│── KOTO/
-│   ├── db.sqlite3
-│   ├── insert.py
-│   ├── manage.py
-│   ├── requirements.txt
-│   ├── KOTO/  # Configuration principale du projet Django
-│   ├── media/  # Stockage des fichiers médias (images, CV, etc.)
-│   ├── nene/   # Application principale de l'entreprise
-│   ├── static/  # Fichiers statiques (CSS, JS, images)
-│   ├── staticfiles/  # Fichiers collectés pour le déploiement
+Le projet est organisé comme suit [Structure hierachique du projet Django](https://gitingest.com/kossaiRedou/ConsultingStartup-Web_App)
 
 
 ## Prérequis
