@@ -4,11 +4,15 @@
 Fodor-Analytics Startup Web App est une application web développée avec Django. Elle est conçue pour gérer et afficher des informations sur les services, les clients, les projets, les témoignages et bien plus encore. Cette application est développée avec une approche dynamique et modulaire, permettant à l'administrateur de modifier tous les éléments (contenu) depuis l'espace admin.
 
 ## Aperçu
-![Diagramme de la base de données](."C:\Users\lenovo\Downloads\fodor-Analytics.png")
+### Capture d'écran du site 🔗 **Lien vers le site :** [Fodor-Analytics Consulting Startup Web App](https://www.fodor360.fr/portfolio/aliou_diallo/)
 
-![Capture d'écran du site](."C:\Users\lenovo\Pictures\Screenshots\site.png")
+![Capture d'écran du site](KOTO/media/site.png)
 
-🔗 **Lien vers le site :** [Fodor-Analytics Consulting Startup Web App](https://www.fodor360.fr/portfolio/aliou_diallo/)
+### Diagramme de la base de données
+![Diagramme de la base de données](KOTO/media/fodor-Analytics.png)
+
+
+
 
 ## Fonctionnalités
 - Gestion des services offerts par l'entreprise
