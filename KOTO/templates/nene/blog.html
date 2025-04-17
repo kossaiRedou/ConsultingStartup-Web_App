@@ -36,7 +36,7 @@
                 {% endif %}
                 <span class="post-date">{{ article.published_date|date:"F d" }}</span>
               </div>
-            
+
 
               <div class="post-content d-flex flex-column">
 
@@ -53,7 +53,7 @@
                 </div>
 
                 <p>
-                  {{ article.render_markdown|truncatewords:50|safe }}...
+                  {{ article.render_markdown|truncatewords:20|safe }}...
                 </p>
 
                 <hr>
@@ -64,7 +64,7 @@
 
             </article>
           </div><!-- End post list item -->
-          
+
         {% endfor %}
 
         </div>

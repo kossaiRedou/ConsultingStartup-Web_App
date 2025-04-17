@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from django.utils.timezone import now
 from django.core.mail import send_mail
 from django.contrib import messages
 from .forms import ContactForm
 from django.utils.timezone import now
 from .models import Employee, Customer, HeroCarousel, Education, Experience, Project, Technology, Certification, Article, AboutSection, Practice, Service
-from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.decorators import login_required
+
+
 
 
 
@@ -28,7 +29,7 @@ def about(request):
         "hero_carousel": hero_carousel,
         "timestamp": now().timestamp()
         })
-    
+
 
 
 
@@ -157,11 +158,15 @@ def portfolio(request, slug):
 #==============================================================
 #             Projet detail
 #==============================================
-from .models import Project
 
 def project_detail(request, slug):
     project = get_object_or_404(Project, slug=slug)
-    return render(request, 'nene/project_detail.html', {'project': project})
+    context = {
+        'project': project,
+        'timestamp': now().timestamp()
+    }
+    return render(request, 'nene/project_detail.html', context)
+
 
 
 
@@ -198,11 +203,11 @@ def testimonials(request):
 #==============================
 def services(request):
     services_list = Service.objects.all()
-    
+
     # Prétraiter les données pour le template
     for service in services_list:
         service.benefits_list = service.benefits.split(",") if service.benefits else []
-    
+
     return render(request, 'nene/services.html', {'services': services_list, "timestamp": now().timestamp()})
 
 
@@ -212,13 +217,13 @@ from .models import Service, Testimonial
 
 def service_detail(request, slug):
     service = get_object_or_404(Service, slug=slug)
-    
+
     # Préparer les bénéfices pour le template
     service.benefits_list = service.benefits.split(",") if service.benefits else []
-    
+
     # Charger les témoignages
     testimonials = Testimonial.objects.all()[:5]  # Récupère les 5 derniers témoignages
-    
+
     return render(request, 'nene/service_detail.html', {
         'service': service,
         'testimonials': testimonials,

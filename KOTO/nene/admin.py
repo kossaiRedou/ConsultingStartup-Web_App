@@ -3,7 +3,7 @@ from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from .models import (
     Article, Skill, AboutSection, Contact, Service, SoftSkills,
-    Employee, Project, Technology, Experience, Education, 
+    Employee, Project, Technology, Experience, Education,
     SoftSkills, Certification, Practice, Customer, HeroCarousel
 )
 
@@ -200,7 +200,7 @@ class AboutSectionAdmin(admin.ModelAdmin):
         if obj.image:
             return f'<img src="{obj.image.url}" width="200" style="border-radius:10px;" />'
         return "Pas d'image"
-    
+
     preview_image.allow_tags = True
     preview_image.short_description = "Aperçu de l'image"
 
@@ -229,3 +229,85 @@ class HeroCarouselAdmin(admin.ModelAdmin):
     list_display = ('title', 'order', 'image')
     list_editable = ('order',)
     search_fields = ('title',)
+
+
+
+
+
+from django.contrib import admin
+from django.utils.html import format_html
+from .models import (
+    Article, Skill, AboutSection, Contact, Service, SoftSkills,
+    Employee, Project, Technology, Experience, Education,
+    SoftSkills, Certification, Practice, Customer, HeroCarousel
+)
+
+
+
+
+from django.contrib import admin
+from django.utils.html import format_html
+from .models import (
+    Article, Skill, AboutSection, Contact, Service, SoftSkills,
+    Employee, Project, Technology, Experience, Education,
+    SoftSkills, Certification, Practice, Customer, HeroCarousel
+)
+
+# -------------------------
+# Admin pour les Projets
+# -------------------------
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ("title", "employee", "date", "display_technologies", "demo_link", "depot_link", "image_preview")
+    list_filter = ("date", "employee")
+    search_fields = ("title", "employee__name", "technologies__name")
+    prepopulated_fields = {"slug": ("title",)}
+
+    fieldsets = (
+        ("Informations Générales", {
+            "fields": ("employee", "title", "slug", "description")
+        }),
+        ("Technologies utilisées", {
+            "fields": ("technologies",)
+        }),
+        ("Médias", {
+            "fields": ("image",)
+        }),
+        ("Liens", {
+            "fields": ("demo", "depot")
+        }),
+        ("Autres", {
+            "fields": ("date",)
+        }),
+    )
+    filter_horizontal = ("technologies",)
+
+    def display_technologies(self, obj):
+        """ Affiche les technologies associées sous forme de liste """
+        return ", ".join([tech.name for tech in obj.technologies.all()])
+
+    display_technologies.short_description = "Technologies"
+
+    def demo_link(self, obj):
+        """ Affiche un lien cliquable vers la démo s'il existe """
+        if obj.demo:
+            return format_html('<a href="{}" target="_blank">Voir la démo</a>', obj.demo)
+        return "Aucune"
+
+    demo_link.short_description = "Lien Démo"
+
+    def depot_link(self, obj):
+        """ Affiche un lien cliquable vers le dépôt s'il existe """
+        if obj.depot:
+            return format_html('<a href="{}" target="_blank">Voir le dépôt</a>', obj.depot)
+        return "Aucun"
+
+    depot_link.short_description = "Lien Dépôt"
+
+    def image_preview(self, obj):
+        """ Affiche un aperçu de l'image si elle est disponible """
+        if obj.image:
+            return format_html('<img src="{}" width="75" height="75" style="border-radius: 5px;" />', obj.image.url)
+        return "Pas d'image"
+
+    image_preview.short_description = "Aperçu de l'image"

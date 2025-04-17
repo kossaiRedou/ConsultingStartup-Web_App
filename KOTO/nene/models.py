@@ -6,6 +6,9 @@ from django.utils.safestring import mark_safe
 import markdown
 import itertools
 from django.utils.timezone import now
+import markdown
+
+
 
 
 
@@ -40,12 +43,18 @@ class Article(models.Model):
             self.slug = slugify(self.title)  # Générer un slug à partir du titre
         super().save(*args, **kwargs)
 
+
     def render_markdown(self):
-        """Convertit le Markdown en HTML avec coloration syntaxique."""
+        """Convertit le Markdown en HTML avec support des formules mathématiques."""
         return mark_safe(markdown.markdown(
             self.content,
-            extensions=["fenced_code", "codehilite"]  # Active les blocs de code
+            extensions=[
+                "fenced_code",
+                "codehilite",
+                "pymdownx.arithmatex"  # Support pour LaTeX
+            ]
         ))
+
 
     def __str__(self):
         return f"{self.title} - {self.author}"
@@ -104,11 +113,17 @@ class Employee(models.Model):
         return self.name
 
 
+
+
+
 class Technology(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
+
+
+
 
 
 class Project(models.Model):
@@ -136,6 +151,13 @@ class Project(models.Model):
             self.slug = slug
         super().save(*args, **kwargs)
 
+    def render_markdown(self):
+        """Convertit le Markdown en HTML avec coloration syntaxique."""
+        return mark_safe(markdown.markdown(
+            self.description,
+            extensions=["fenced_code", "codehilite"]  # Active les blocs de code
+        ))
+
     def __str__(self):
         return f"{self.title} - {self.employee.name}"
 
@@ -153,7 +175,7 @@ class Experience(models.Model):
 
     class Meta:
         ordering = ['-start_date']
-        
+
 
     def save(self, *args, **kwargs):
         # Enregistrer d'abord l'expérience
@@ -167,8 +189,8 @@ class Experience(models.Model):
             employee.location = self.city
             # Sauvegarde de l'employé avec les nouvelles informations
             employee.save(update_fields=['position', 'location'])
-            
-            
+
+
 
     def __str__(self):
         end_date_display = self.end_date.strftime("%Y") if self.end_date else "En cours"
@@ -250,8 +272,8 @@ class AboutSection(models.Model):
 
     def __str__(self):
         return self.title
-    
-    
+
+
 
 #========================================================
 #                   SERVICES
@@ -259,52 +281,52 @@ class AboutSection(models.Model):
 
 class Service(models.Model):
     title = models.CharField(
-        max_length=255, 
+        max_length=255,
         verbose_name="Titre du service"
     )
     slug = models.SlugField(
-        unique=True, 
-        blank=True, 
-        null=True, 
+        unique=True,
+        blank=True,
+        null=True,
         #editable=False
     )
     short_description = models.CharField(
-        max_length=255, 
-        null=True, 
+        max_length=255,
+        null=True,
         verbose_name="Description courte",
         help_text="Une phrase percutante qui résume le service."
     )
     detailed_description = models.TextField(
-        null=True, 
-        verbose_name="Description complète", 
+        null=True,
+        verbose_name="Description complète",
         help_text="Explique en quoi ce service est utile et ses avantages."
     )
     benefits = models.TextField(
-        null=True, 
-        verbose_name="Avantages clés", 
+        null=True,
+        verbose_name="Avantages clés",
         help_text="Liste des bénéfices concrets, séparés par des virgules."
     )
     target_clients = models.CharField(
-        max_length=255, 
-        null=True, 
-        verbose_name="Public cible", 
+        max_length=255,
+        null=True,
+        verbose_name="Public cible",
         help_text="Ex: Startups, PME, Grandes entreprises, Freelancers..."
     )
     image = models.ImageField(
-        upload_to="services/", 
-        blank=True, 
-        null=False, 
+        upload_to="services/",
+        blank=True,
+        null=False,
         verbose_name="Image illustrant le service"
     )
     call_to_action = models.CharField(
-        max_length=255, 
-        null=True, 
-        blank=True, 
-        verbose_name="Texte d'appel à l'action", 
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="Texte d'appel à l'action",
         help_text="Ex: Contactez-nous pour une consultation gratuite"
     )
     created_at = models.DateTimeField(
-        auto_now_add=True, 
+        auto_now_add=True,
         verbose_name="Date de création"
     )
 
@@ -362,7 +384,7 @@ class Practice(models.Model):
 
     def formatted_number(self):
         """Retourne le numéro formaté avec deux chiffres (ex: 02, 03, 10)"""
-        return f"{self.number:02d}"  
+        return f"{self.number:02d}"
 
     def __str__(self):
         """Affichage propre dans Django Admin et autres vues"""

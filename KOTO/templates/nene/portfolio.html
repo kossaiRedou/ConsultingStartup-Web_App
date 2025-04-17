@@ -156,7 +156,7 @@
                         <!-- Description -->
                         <div class="portfolio-info">
                             <h4>{{ project.title }}</h4>
-                            <p>{{ project.description|truncatewords:20 }}...</p>
+                            <p>{{ project.render_markdown|truncatewords:30|safe }}...</p>
                             <div class="mt-2">
                                 <a href="{% url 'project_detail' slug=project.slug %}" class="btn btn-outline-primary btn-sm">Learn More</a>
                                 {% if project.demo %}
