@@ -8,9 +8,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-eflhmw52v+oeiee1&*cwh)ut!iflxz6g1etldcjju952a()hp('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'alioukalmaya.pythonanywhere.com', 'www.fodor360.fr', 'fodor360.fr']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.gabithex.fr', 'gabithex.fr', '*.herokuapp.com']
 
 
 
@@ -156,7 +156,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'alioukalmaya@gmail.com'  # Remplace par ton email
+EMAIL_HOST_USER = 'contact@gabithex.fr'  # Email GABITHEX
 EMAIL_HOST_PASSWORD = 'pqfdbitqjowsfnhe'  # Utilise un mot de passe d’application
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 

@@ -13,38 +13,38 @@ from nene.models import Testimonial  # Remplace 'myapp' par le nom de ton applic
 testimonials_data = [
     {
         "name": "Marie Dupont",
-        "feedback": "Service impeccable, rapide et professionnel. Je recommande fortement !",
-        "company": "Digital Solutions"
+        "feedback": "GABITHEX a transformé notre vision digitale en réalité. Une équipe exceptionnelle !",
+        "company": "TechStart Solutions"
     },
     {
         "name": "Jean Martin",
-        "feedback": "Une équipe à l'écoute et des résultats impressionnants. Un vrai partenaire de confiance !",
-        "company": "StartupBoost"
+        "feedback": "Développement web de qualité supérieure et accompagnement personnalisé. Je recommande vivement GABITHEX !",
+        "company": "InnovateNow"
     },
     {
         "name": "Sophie Lambert",
-        "feedback": "Très satisfaite, j’ai enfin trouvé une solution adaptée à mes besoins.",
-        "company": "Marketing Pro"
+        "feedback": "Application mobile parfaitement adaptée à nos besoins. L'équipe GABITHEX est très professionnelle.",
+        "company": "MobileTech Pro"
     },
     {
         "name": "Alexandre Petit",
-        "feedback": "Des conseils avisés et un accompagnement sur-mesure. Merci pour votre aide !",
-        "company": "E-commerce Plus"
+        "feedback": "Solutions IA innovantes qui ont révolutionné notre processus métier. Merci GABITHEX !",
+        "company": "DataDriven Plus"
     },
     {
         "name": "Laura Fontaine",
-        "feedback": "Des experts en stratégie digitale ! Mon entreprise a vu ses performances exploser.",
-        "company": "WebInnov"
+        "feedback": "Transformation digitale réussie grâce à l'expertise technique de GABITHEX. Résultats exceptionnels !",
+        "company": "DigitalTransform"
     },
     {
         "name": "Nicolas Rousseau",
-        "feedback": "Un service client au top ! Réactif et efficace. Je recommande sans hésiter.",
+        "feedback": "Service client remarquable et solutions techniques de pointe. GABITHEX dépasse nos attentes !",
         "company": None  # Pas d'entreprise spécifiée
     },
     {
         "name": "Élodie Garnier",
-        "feedback": "Grâce à eux, j’ai optimisé ma stratégie commerciale et boosté mes ventes.",
-        "company": "Consulting Experts"
+        "feedback": "Grâce à GABITHEX, notre plateforme web a atteint un niveau de performance inégalé.",
+        "company": "WebExcellence"
     },
 ]
 

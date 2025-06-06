@@ -92,7 +92,7 @@ def contact_view(request):
                 f"Message de {contact.name} - {contact.subject}",
                 f"Expéditeur : {contact.email}\n\nMessage :\n {contact.message}",
                 contact.email,
-                ['aliou@gabithex.fr'],  # mail auquel faut envoyer le message
+                ['contact@gabithex.fr'],  # mail auquel faut envoyer le message
                 fail_silently=False,
             )
 
