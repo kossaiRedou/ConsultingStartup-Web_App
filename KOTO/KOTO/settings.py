@@ -1,38 +1,54 @@
-from pathlib import Path
 import os
+from pathlib import Path
 from dotenv import load_dotenv
-import environ
 
 # Charger les variables d'environnement
 load_dotenv()
 
-# Initialisation de environ
-env = environ.Env(
-    DEBUG=(bool, False),
-    ALLOWED_HOSTS=(list, ['localhost', '127.0.0.1', '.fly.dev']),
-)
-
-# Lecture du fichier .env s'il existe
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('DJANGO_SECRET_KEY')
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'default-secret-key-for-dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+DEBUG = os.getenv('DJANGO_DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+ALLOWED_HOSTS = ['gabithex.fly.dev', 'localhost', '127.0.0.1']
 
+# CSRF Settings
+CSRF_TRUSTED_ORIGINS = ['https://gabithex.fly.dev']
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
+# HTTPS Settings
+SECURE_SSL_REDIRECT = False  # Déjà géré par Fly.io
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+# Database
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+if os.getenv('DATABASE_URL'):
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
+# Configuration pour les fichiers statiques
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-
+# Configuration pour les fichiers média
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Application definition
 INSTALLED_APPS = [
@@ -50,16 +66,46 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
 ]
 
+# Configuration de Admin Interface
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SILENCED_SYSTEM_CHECKS = ['security.W019']
 
-#===================================================================
-#                             Jazzin settings
-# #======================================
+# Thème par défaut pour admin-interface
+ADMIN_INTERFACE_THEME = {
+    'name': 'Gabithex Admin',
+    'active': True,
+    'title': 'Administration Gabithex',
+    'title_color': '#F8F9FA',
+    'title_visible': True,
+    'logo': '',
+    'logo_color': '#FFFFFF',
+    'logo_visible': True,
+    'css_header_background_color': '#0C4B33',
+    'css_header_text_color': '#FFFFFF',
+    'css_header_link_color': '#FFFFFF',
+    'css_header_link_hover_color': '#C9F0DD',
+    'css_module_background_color': '#44B78B',
+    'css_module_text_color': '#FFFFFF',
+    'css_module_link_color': '#FFFFFF',
+    'css_module_link_hover_color': '#C9F0DD',
+    'css_module_rounded_corners': True,
+    'css_generic_link_color': '#0C3C26',
+    'css_generic_link_hover_color': '#156641',
+    'css_save_button_background_color': '#0C4B33',
+    'css_save_button_background_hover_color': '#0C3C26',
+    'css_save_button_text_color': '#FFFFFF',
+    'css_delete_button_background_color': '#BA2121',
+    'css_delete_button_background_hover_color': '#A41515',
+    'css_delete_button_text_color': '#FFFFFF',
+    'list_filter_dropdown': True,
+    'related_modal_active': True,
+    'related_modal_background_color': '#000000',
+    'related_modal_background_opacity': '0.8',
+    'related_modal_rounded_corners': True,
+    'language_chooser_active': True,
+}
 
-
-
-# #====================================== End Jazzin setting
-
-
+# Middleware configuration
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -99,12 +145,6 @@ WSGI_APPLICATION = 'KOTO.wsgi.application'
 LOGIN_URL = "/admin"
 
 
-# Database
-DATABASES = {
-    'default': env.db(default='sqlite:///db.sqlite3')
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -138,29 +178,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 
-import os
-STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static/"),
 ]
-
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-
-
-
-MEDIA_URL = '/media/'  # URL d'accès aux fichiers
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Dossier où sont stockées les images
 
 
 #=======================================================
@@ -211,18 +236,3 @@ CKEDITOR_CONFIGS = {
         'codeSnippet_theme': 'monokai_sublime',
     }
 }
-
-# Configuration de l'interface d'administration
-X_FRAME_OPTIONS = 'SAMEORIGIN'
-SILENCED_SYSTEM_CHECKS = ['security.W019']
-
-# Configuration de sécurité pour la production
-if not DEBUG:
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_SECONDS = 31536000  # 1 an
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_PRELOAD = True

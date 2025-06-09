@@ -20,4 +20,9 @@ primary_region = "cdg"
 
   [[services.ports]]
     port = 5432
-    handlers = ["pg_tls"] 
+    handlers = ["pg_tls"]
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 100
+    soft_limit = 80 
