@@ -8,8 +8,9 @@ __pycache__/
 *.env
 *.venv/
 venv/
-env/
-.envrc
+*env/
+.envr
+KOTO\g_env
 
 # Ignorer les fichiers de logs et de bases de données locales
 logs/
@@ -40,3 +41,4 @@ build/
 
 #ignorer la base de données
 
+Presentation gabithex.pdf

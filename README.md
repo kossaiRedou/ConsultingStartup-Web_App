@@ -1,15 +1,15 @@
-# Fodor-Analytics Startup - Web Application
+# GABITHEX - Web Application
 
 ## Description
-Fodor-Analytics Startup Web App est une application web développée avec Django. Elle est conçue pour gérer et afficher des informations sur les services, les clients, les projets, les témoignages et bien plus encore. Cette application est développée avec une approche dynamique et modulaire, permettant à l'administrateur de modifier tous les éléments (contenu) depuis l'espace admin.
+GABITHEX Web App est une application web développée avec Django. Elle est conçue pour gérer et afficher des informations sur les services, les clients, les projets, les témoignages et bien plus encore. Cette application est développée avec une approche dynamique et modulaire, permettant à l'administrateur de modifier tous les éléments (contenu) depuis l'espace admin.
 
 ## Aperçu
-### Capture d'écran du site 🔗 **Lien vers le site :** [Fodor-Analytics Consulting Startup Web App](https://www.fodor360.fr/portfolio/aliou_diallo/)
+### Capture d'écran du site 🔗 **Lien vers le site :** [GABITHEX Consulting Web App](https://www.gabithex.fr/)
 
 ![Capture d'écran du site](KOTO/media/site.png)
 
 ### Diagramme de la base de données
-![Diagramme de la base de données](KOTO/media/fodor-Analytics.png)
+![Diagramme de la base de données](KOTO/media/gabithex-Analytics.png)
 
 
 
