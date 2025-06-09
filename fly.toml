@@ -1,4 +1,5 @@
 app = "gabithex"
+primary_region = "cdg"
 
 [build]
   dockerfile = "Dockerfile"
@@ -17,4 +18,7 @@ app = "gabithex"
 
 [[statics]]
   guest_path = "/app/KOTO/staticfiles"
-  url_prefix = "/static" 
+  url_prefix = "/static"
+
+[deploy]
+  release_command = "python KOTO/manage.py migrate" 
