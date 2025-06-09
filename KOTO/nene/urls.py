@@ -32,6 +32,8 @@ urlpatterns = [
     path('team/', views.team, name='team'),
     path('testimonials/', views.testimonials, name='testimonials'),
     
+    # Route pour laisser un témoignage
+    path('leave-testimonial/', views.leave_testimonial, name='leave_testimonial'),
     
     #__________________________________Included sections
     path('customers/', views.customerSection, name='customers'),

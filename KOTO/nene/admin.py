@@ -4,7 +4,9 @@ from django.utils.safestring import mark_safe
 from .models import (
     Article, Skill, AboutSection, Contact, Service, SoftSkills,
     Employee, Project, Technology, Experience, Education,
-    SoftSkills, Certification, Practice, Customer, HeroCarousel
+    SoftSkills, Certification, Practice, Customer, HeroCarousel,
+    ConversionStats, Testimonial, PricingPlan, Lead,
+    CodeSnippet
 )
 
 
@@ -56,18 +58,41 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 
+# Inlines
+class CodeSnippetInline(admin.StackedInline):
+    model = CodeSnippet
+    extra = 1
+    fields = ('title', 'language', 'code')
+    classes = ('collapse',)
+
+# Article Admin
+@admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ("title", "author", "category", "published_date")
-    list_filter = ("category", "published_date", "author")
-    search_fields = ("title", "author", "category", "content")
-    prepopulated_fields = {"slug": ("title",)}
+    list_display = ('title', 'author', 'category', 'status', 'published_date', 'image_preview')
+    list_filter = ('status', 'category', 'published_date')
+    search_fields = ('title', 'content', 'author')
+    prepopulated_fields = {'slug': ('title',)}
+    inlines = [CodeSnippetInline]
+    readonly_fields = ('image_preview',)
+    
+    fieldsets = (
+        ('Contenu principal', {
+            'fields': ('title', 'slug', 'content')
+        }),
+        ('Informations', {
+            'fields': ('author', 'category', 'status')
+        }),
+        ('Média et SEO', {
+            'fields': ('image', 'image_preview', 'meta_description'),
+            'classes': ('collapse',)
+        }),
+    )
 
-    def save_model(self, request, obj, form, change):
-        if not obj.slug:
-            obj.slug = slugify(obj.title)
-        super().save_model(request, obj, form, change)
-
-admin.site.register(Article, ArticleAdmin)
+    def image_preview(self, obj):
+        if obj.image:
+            return format_html('<img src="{}" style="max-height: 50px;"/>', obj.image.url)
+        return "Pas d'image"
+    image_preview.short_description = "Aperçu de l'image"
 
 
 
@@ -234,80 +259,114 @@ class HeroCarouselAdmin(admin.ModelAdmin):
 
 
 
-from django.contrib import admin
-from django.utils.html import format_html
-from .models import (
-    Article, Skill, AboutSection, Contact, Service, SoftSkills,
-    Employee, Project, Technology, Experience, Education,
-    SoftSkills, Certification, Practice, Customer, HeroCarousel
-)
-
-
-
-
-from django.contrib import admin
-from django.utils.html import format_html
-from .models import (
-    Article, Skill, AboutSection, Contact, Service, SoftSkills,
-    Employee, Project, Technology, Experience, Education,
-    SoftSkills, Certification, Practice, Customer, HeroCarousel
-)
-
-# -------------------------
-# Admin pour les Projets
-# -------------------------
+# Project Admin
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ("title", "employee", "date", "display_technologies", "demo_link", "depot_link", "image_preview")
-    list_filter = ("date", "employee")
-    search_fields = ("title", "employee__name", "technologies__name")
-    prepopulated_fields = {"slug": ("title",)}
-
+    list_display = ('title', 'employee', 'status', 'date', 'image_preview')
+    list_filter = ('status', 'technologies', 'date')
+    search_fields = ('title', 'description', 'employee__name')
+    prepopulated_fields = {'slug': ('title',)}
+    filter_horizontal = ('technologies',)
+    readonly_fields = ('image_preview',)
+    
     fieldsets = (
-        ("Informations Générales", {
-            "fields": ("employee", "title", "slug", "description")
+        ('Informations principales', {
+            'fields': ('title', 'slug', 'employee', 'status')
         }),
-        ("Technologies utilisées", {
-            "fields": ("technologies",)
+        ('Contenu', {
+            'fields': ('description', 'technologies')
         }),
-        ("Médias", {
-            "fields": ("image",)
+        ('Média et liens', {
+            'fields': ('image', 'image_preview', 'demo', 'depot'),
+            'classes': ('collapse',)
         }),
-        ("Liens", {
-            "fields": ("demo", "depot")
-        }),
-        ("Autres", {
-            "fields": ("date",)
+        ('SEO', {
+            'fields': ('meta_description',),
+            'classes': ('collapse',)
         }),
     )
-    filter_horizontal = ("technologies",)
-
-    def display_technologies(self, obj):
-        """ Affiche les technologies associées sous forme de liste """
-        return ", ".join([tech.name for tech in obj.technologies.all()])
-
-    display_technologies.short_description = "Technologies"
-
-    def demo_link(self, obj):
-        """ Affiche un lien cliquable vers la démo s'il existe """
-        if obj.demo:
-            return format_html('<a href="{}" target="_blank">Voir la démo</a>', obj.demo)
-        return "Aucune"
-
-    demo_link.short_description = "Lien Démo"
-
-    def depot_link(self, obj):
-        """ Affiche un lien cliquable vers le dépôt s'il existe """
-        if obj.depot:
-            return format_html('<a href="{}" target="_blank">Voir le dépôt</a>', obj.depot)
-        return "Aucun"
-
-    depot_link.short_description = "Lien Dépôt"
 
     def image_preview(self, obj):
-        """ Affiche un aperçu de l'image si elle est disponible """
         if obj.image:
-            return format_html('<img src="{}" width="75" height="75" style="border-radius: 5px;" />', obj.image.url)
+            return format_html('<img src="{}" style="max-height: 50px;"/>', obj.image.url)
         return "Pas d'image"
-
     image_preview.short_description = "Aperçu de l'image"
+
+
+#=================================================
+#            Conversion Stats
+#===============================
+@admin.register(ConversionStats)
+class ConversionStatsAdmin(admin.ModelAdmin):
+    list_display = ('projects_completed', 'client_satisfaction', 'response_time_hours', 'years_experience', 'is_active', 'created_at')
+    list_filter = ('is_active', 'created_at')
+    list_editable = ('is_active',)
+    readonly_fields = ('created_at', 'updated_at')
+    
+    fieldsets = (
+        ("📊 Statistiques Principales", {
+            "fields": ("projects_completed", "client_satisfaction", "response_time_hours", "years_experience")
+        }),
+        ("⚙️ Configuration", {
+            "fields": ("is_active", "created_at", "updated_at")
+        }),
+    )
+    
+    def has_add_permission(self, request):
+        # Limiter à une seule instance active
+        if ConversionStats.objects.filter(is_active=True).exists():
+            return False
+        return super().has_add_permission(request)
+
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('name', 'position', 'company', 'feedback_preview', 'created_at', 'is_approved', 'actions_buttons')
+    list_filter = ('is_approved', 'created_at', 'company')
+    search_fields = ('name', 'company', 'feedback', 'position')
+    list_editable = ('is_approved',)
+    ordering = ('-created_at',)
+    readonly_fields = ('created_at',)
+    list_per_page = 20
+    
+    def feedback_preview(self, obj):
+        """Affiche un aperçu du feedback limité à 50 caractères"""
+        return obj.feedback[:50] + '...' if len(obj.feedback) > 50 else obj.feedback
+    feedback_preview.short_description = 'Avis (aperçu)'
+    
+    def actions_buttons(self, obj):
+        """Ajoute des boutons d'action rapide"""
+        if obj.is_approved:
+            button_style = 'background-color: #dc3545; color: white;'
+            button_text = 'Désapprouver'
+        else:
+            button_style = 'background-color: #28a745; color: white;'
+            button_text = 'Approuver'
+            
+        return format_html(
+            '<button style="padding: 5px 10px; border-radius: 5px; border: none; {} cursor: pointer;" '
+            'onclick="window.location.href=\'{}\';">{}</button>',
+            button_style,
+            f'/admin/nene/testimonial/{obj.id}/change/',
+            button_text
+        )
+    actions_buttons.short_description = 'Actions'
+    
+    fieldsets = (
+        ('Informations Client', {
+            'fields': ('name', 'position', 'company')
+        }),
+        ('Avis', {
+            'fields': ('feedback', 'is_approved')
+        }),
+        ('Métadonnées', {
+            'fields': ('created_at',),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    def save_model(self, request, obj, form, change):
+        if not change:  # Si c'est une nouvelle création
+            if not obj.is_approved:  # Si l'avis n'est pas approuvé
+                self.message_user(request, 'Nouvel avis créé. N\'oubliez pas de l\'approuver pour qu\'il soit visible sur le site.')
+        super().save_model(request, obj, form, change)

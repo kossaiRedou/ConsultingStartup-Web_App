@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="0 0 800 800" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(0.000000, 0.000000)" fill="#000000">
+            <circle opacity="0.1" cx="400" cy="400" r="80"/>
+            <circle opacity="0.05" cx="400" cy="400" r="160"/>
+            <circle opacity="0.025" cx="400" cy="400" r="240"/>
+            <path d="M400,0 L420,60 L480,20 L460,80 L520,80 L460,100 L500,160 L440,120 L440,180 L420,120 L380,160 L380,100 L320,140 L360,80 L300,60 L360,40 L320,0 L380,20 L400,0" opacity="0.05"/>
+            <path d="M400,800 L420,740 L480,780 L460,720 L520,720 L460,700 L500,640 L440,680 L440,620 L420,680 L380,640 L380,700 L320,660 L360,720 L300,740 L360,760 L320,800 L380,780 L400,800" opacity="0.05" transform="translate(400.000000, 720.000000) scale(1, -1) translate(-400.000000, -720.000000)"/>
+            <path d="M800,400 L740,420 L780,480 L720,460 L720,520 L700,460 L640,500 L680,440 L620,440 L680,420 L640,380 L700,380 L660,320 L720,360 L740,300 L760,360 L800,320 L780,380 L800,400" opacity="0.05" transform="translate(720.000000, 400.000000) scale(-1, 1) translate(-720.000000, -400.000000)"/>
+            <path d="M0,400 L60,420 L20,480 L80,460 L80,520 L100,460 L160,500 L120,440 L180,440 L120,420 L160,380 L100,380 L140,320 L80,360 L60,300 L40,360 L0,320 L20,380 L0,400" opacity="0.05"/>
+            <rect opacity="0.05" x="380" y="380" width="40" height="40"/>
+            <circle opacity="0.1" cx="200" cy="200" r="40"/>
+            <circle opacity="0.1" cx="600" cy="200" r="40"/>
+            <circle opacity="0.1" cx="200" cy="600" r="40"/>
+            <circle opacity="0.1" cx="600" cy="600" r="40"/>
+            <path d="M380,380 L420,380 L400,360 Z" opacity="0.05"/>
+            <path d="M380,420 L420,420 L400,440 Z" opacity="0.05"/>
+        </g>
+    </g>
+</svg> 

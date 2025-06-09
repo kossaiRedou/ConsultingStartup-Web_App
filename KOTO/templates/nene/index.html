@@ -6,66 +6,443 @@
 
 <!-- Hero Section -->
 <section id="hero" class="hero section dark-background">
-  <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="60000">
+  <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="8000">
   
     <!-- Dynamically generated carousel items -->
     {% for item in hero_carousel %}
       <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img src="{{ item.image.url }}" alt="">
-        <div class="container">
-          <h2>{{ item.title }}</h2>
-          <p>{{ item.description|slice:":500" }}{% if item.description|length > 500 %}...{% endif %}</p>
-          <a href="{% url 'about' %}#vision-{{ item.order }}" class="btn-get-started">Lire Plus</a>
+        <div class="overlay"></div>
+        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="carousel-img">
+        <div class="container position-relative">
+          <div class="row align-items-center min-vh-85">
+            <div class="col-lg-8 mx-auto text-center">
+              <!-- Animated Title -->
+              <h1 class="display-4 fw-bold text-white mb-4 animate__animated animate__fadeInDown">
+                {{ item.title }}
+              </h1>
+              
+              <!-- Animated Description -->
+              <p class="lead text-white mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+                {{ item.description|slice:":400" }}{% if item.description|length > 400 %}...{% endif %}
+              </p>
+              
+              <!-- Professional Stats with Animation -->
+              <div class="row g-4 mb-5 animate__animated animate__fadeInUp animate__delay-2s">
+                <div class="col-6 col-md-3">
+                  <div class="stat-card p-3 rounded bg-white bg-opacity-10">
+                    <h3 class="text-primary mb-1 counter">{{ stats.years_experience }}+</h3>
+                    <p class="text-white-50 mb-0">Années d'Expertise</p>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="stat-card p-3 rounded bg-white bg-opacity-10">
+                    <h3 class="text-primary mb-1 counter">{{ stats.projects_completed }}+</h3>
+                    <p class="text-white-50 mb-0">Projets Réalisés</p>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="stat-card p-3 rounded bg-white bg-opacity-10">
+                    <h3 class="text-primary mb-1 counter">{{ stats.client_satisfaction }}%</h3>
+                    <p class="text-white-50 mb-0">Satisfaction Client</p>
+                  </div>
+                </div>
+                <div class="col-6 col-md-3">
+                  <div class="stat-card p-3 rounded bg-white bg-opacity-10">
+                    <h3 class="text-primary mb-1 counter">{{ stats.response_time_hours }}h</h3>
+                    <p class="text-white-50 mb-0">Temps de Réponse</p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- CTA Buttons with Animation -->
+              <div class="d-grid gap-3 d-sm-flex justify-content-sm-center animate__animated animate__fadeInUp animate__delay-3s">
+                <a href="{% url 'contact' %}" class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fw-bold">
+                  <i class="bi bi-person-badge me-2"></i>Me Recruter
+                </a>
+                <a href="{% url 'portfolio' 'aliou_diallo' %}" class="btn btn-outline-light btn-lg px-5 py-3 fw-bold">
+                  <i class="bi bi-briefcase me-2"></i>Voir Mon Portfolio
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-      </div><!-- End Carousel Item -->
+      </div>
     {% endfor %}
   
-    <!-- Carousel controls -->
-    <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
-    </a>
+    <!-- Carousel Navigation -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Précédent</span>
+    </button>
 
-    <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
-      <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
-    </a>
+    <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Suivant</span>
+    </button>
 
-    <ol class="carousel-indicators"></ol>
+    <!-- Custom Indicators -->
+    <div class="carousel-indicators">
+      {% for item in hero_carousel %}
+        <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="{{ forloop.counter0 }}" 
+                class="{% if forloop.first %}active{% endif %}" 
+                aria-current="{% if forloop.first %}true{% endif %}"
+                aria-label="Slide {{ forloop.counter }}">
+        </button>
+      {% endfor %}
+    </div>
   </div>
-</section><!-- /Hero Section -->
+</section>
 
+<!-- Expertise Section -->
+<section id="expertise" class="section">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="expertise-card h-100 p-4 rounded-4 bg-light">
+          <div class="d-inline-block bg-primary bg-opacity-10 p-3 rounded-circle mb-3">
+            <i class="bi bi-code-square text-primary fs-3"></i>
+          </div>
+          <h3 class="h4 mb-3">Développement Web</h3>
+          <p class="mb-0">Expert en développement d'applications web modernes avec Django, React et Vue.js. Spécialisé dans les solutions data-driven et l'intégration d'API.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="expertise-card h-100 p-4 rounded-4 bg-light">
+          <div class="d-inline-block bg-primary bg-opacity-10 p-3 rounded-circle mb-3">
+            <i class="bi bi-robot text-primary fs-3"></i>
+          </div>
+          <h3 class="h4 mb-3">Intelligence Artificielle</h3>
+          <p class="mb-0">Conception et déploiement de solutions IA innovantes. Expertise en machine learning, NLP et computer vision avec PyTorch et TensorFlow.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="expertise-card h-100 p-4 rounded-4 bg-light">
+          <div class="d-inline-block bg-primary bg-opacity-10 p-3 rounded-circle mb-3">
+            <i class="bi bi-graph-up-arrow text-primary fs-3"></i>
+          </div>
+          <h3 class="h4 mb-3">Data Strategy</h3>
+          <p class="mb-0">Accompagnement stratégique dans la valorisation des données. Expertise en business intelligence et optimisation des processus métier.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-
-    <!-- About Section -->
-    <section id="about-section">
-      <div class="loading text-center">Chargement des données...</div> <!-- Message de chargement -->
+<!-- Value Proposition Section -->
+<section id="value-proposition" class="section light-background">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center" data-aos="fade-up">
+        <h2 class="section-title">Notre Expertise GABITHEX</h2>
+        <p class="lead mb-5">Solutions stratégiques et techniques pour exploiter la puissance de vos données</p>
+      </div>
+    </div>
+    <div class="row gy-4">
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="value-item">
+          <div class="icon-box floating">
+            <i class="bi bi-graph-up"></i>
+          </div>
+          <h4>Stratégie Data</h4>
+          <p>Transformez vos données en insights actionnables avec nos solutions d'analyse avancée.</p>
+          <div class="small">Explorez les opportunités cachées</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="value-item">
+          <div class="icon-box floating">
+            <i class="bi bi-cpu"></i>
+          </div>
+          <h4>IA & Machine Learning</h4>
+          <p>Automatisez vos processus et prenez des décisions éclairées grâce à l'intelligence artificielle.</p>
+          <div class="small">Optimisez votre performance</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div class="value-item">
+          <div class="icon-box floating">
+            <i class="bi bi-code-square"></i>
+          </div>
+          <h4>Développement Web</h4>
+          <p>Applications web sur mesure intégrant les dernières technologies et best practices.</p>
+          <div class="small">Créez votre solution unique</div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <div class="value-item">
+          <div class="icon-box floating">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h4>Sécurité & Performance</h4>
+          <p>Solutions robustes et sécurisées pour une performance optimale de vos applications.</p>
+          <div class="small">Protégez vos actifs digitaux</div>
+        </div>
+      </div>
+    </div>
+  </div>
     </section>
 
-    <!-- jQuery (nécessaire pour AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Séparateur SVG décoratif -->
+<div class="section-separator">
+  <img src="{% static 'nene/img/separator-wave-demo.svg' %}" alt="" style="width:100%;display:block;">
+</div>
 
-    <script>
-      $(document).ready(function() {
-          $("#about-section").load("{% url 'aboutSection' %}"); // Charge dynamiquement la section Clients
-      });
-    </script>
-    <!-- /About Section -->
+<!-- Services Section -->
+<section id="services" class="services section bg-pattern">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>Mes Services en Trois Catégories</h2>
+      <p>Solutions innovantes pour votre transformation digitale</p>
+    </div>
+
+    <div class="row gy-4">
+      <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+        <div class="service-card">
+          <div class="icon-box floating">
+            <i class="bi bi-graph-up-arrow"></i>
+          </div>
+          <h3>Analyse Stratégique</h3>
+          <p>Exploitez vos données pour une prise de décision éclairée. Analyses sectorielles, études de marché et veille concurrentielle.</p>
+          <div class="service-features">
+            <span><i class="bi bi-check2-circle"></i> Études de marché</span>
+            <span><i class="bi bi-check2-circle"></i> Benchmarks</span>
+            <span><i class="bi bi-check2-circle"></i> KPIs</span>
+          </div>
+          <a href="{% url 'services' %}" class="btn btn-outline-primary mt-3">En savoir plus</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="service-card">
+          <div class="icon-box floating">
+            <i class="bi bi-robot"></i>
+          </div>
+          <h3>Intelligence Artificielle</h3>
+          <p>Automatisez et optimisez vos processus grâce à l'IA. Solutions sur mesure pour vos besoins spécifiques.</p>
+          <div class="service-features">
+            <span><i class="bi bi-check2-circle"></i> Machine Learning</span>
+            <span><i class="bi bi-check2-circle"></i> Automatisation</span>
+            <span><i class="bi bi-check2-circle"></i> Prédiction</span>
+          </div>
+          <a href="{% url 'services' %}" class="btn btn-outline-primary mt-3">En savoir plus</a>
+        </div>
+      </div>
+
+      <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+        <div class="service-card">
+          <div class="icon-box floating">
+            <i class="bi bi-code-square"></i>
+          </div>
+          <h3>Développement d'Applications Web</h3>
+          <p>Applications web modernes et APIs robustes. Solutions techniques adaptées à vos objectifs business.</p>
+          <div class="service-features">
+            <span><i class="bi bi-check2-circle"></i> Applications Web</span>
+            <span><i class="bi bi-check2-circle"></i> APIs</span>
+            <span><i class="bi bi-check2-circle"></i> Dashboards</span>
+          </div>
+          <a href="{% url 'services' %}" class="btn btn-outline-primary mt-3">En savoir plus</a>
+        </div>
+      </div>
+    </div>
+
+    
+    <!-- Nos Offres Packagées Section -->
+<section id="offres-pack" class="section light-background">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center" data-aos="fade-up">
+        <h2 class="section-title">Des packs clairs, des résultats rapides</h2>
+        <p class="section-description">Choisissez la solution qui vous correspond, obtenez un devis en 24h.</p>
+      </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+      <div class="col-lg-10">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-primary">
+              <tr>
+                <th>Offre</th>
+                <th>Contenu</th>
+                <th>Durée</th>
+                <th>Tarif indicatif</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Diagnostic Stratégique</td>
+                <td>Analyse marché + dashboard + recommandations</td>
+                <td>2-3 semaines</td>
+                <td>1 800&nbsp;€</td>
+              </tr>
+              <tr>
+                <td>Projet IA</td>
+                <td>Modélisation IA + visualisation + livrable</td>
+                <td>1-2 mois</td>
+                <td>3 500&nbsp;€</td>
+              </tr>
+              <tr>
+                <td>App Web/API</td>
+                <td>Application web + interface + déploiement</td>
+                <td>4-6 semaines</td>
+                <td>4 100&nbsp;€</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="text-center mt-4">
+          <p class="mb-2 text-success fw-bold">Vous avez un besoin spécifique&nbsp;? Discutons-en, chaque projet est unique.</p>
+          <a href="{% url 'contact' %}" class="btn btn-success btn-lg">
+            <i class="bi bi-cursor"></i> Demander un devis personnalisé
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+    </section>
+
+
 
 
     <!-- Clients Section -->
-    <section id="clients-section">
-      <div class="loading text-center">Chargement des clients...</div> <!-- Message de chargement -->
+<section id="clients-carousel" class="section py-5">
+  <div class="container text-center">
+    <h3 class="mb-4">Ils m'ont fait confiance</h3>
+    
+    <!-- Grille de clients -->
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4 clients-grid">
+      {% for client in clients %}
+        <div class="col">
+          <div class="client-card p-3 bg-white rounded shadow-sm h-100">
+            {% if client.logo %}
+              <img src="{{ client.logo.url }}" alt="{{ client.nom }}" class="img-fluid mb-3" style="max-height: 80px; width: auto;">
+            {% endif %}
+            <h6 class="mb-0">{{ client.nom }}</h6>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
     </section>
 
-    <!-- jQuery (nécessaire pour AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Séparateur SVG décoratif -->
+<div class="section-separator">
+  <img src="{% static 'nene/img/separator-wave-demo.svg' %}" alt="" style="width:100%;display:block;">
+</div>
 
-    <script>
-      $(document).ready(function() {
-          $("#clients-section").load("{% url 'customers' %}"); // Charge dynamiquement la section Clients
-      });
-    </script>
 
-    <!-- End Clients Section-->
+<!-- Testimonials Section -->
+<section id="testimonials" class="testimonials section bg-pattern">
+  <div class="container" data-aos="fade-up">
+    <div class="section-title">
+      <h2>Témoignages</h2>
+      <p>Ce qu'ils disent de moi</p>
+    </div>
 
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for testimonial in testimonials %}
+        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+          <div class="testimonial-item">
+            <div class="testimonial-content">
+              <div class="testimonial-icon">
+                <i class="bi bi-quote"></i>
+              </div>
+              <p class="testimonial-text">
+                {{ testimonial.feedback }}
+              </p>
+              <div class="rating">
+                {% for i in "12345" %}
+                <i class="bi bi-star-fill"></i>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="testimonial-author">
+              {% if testimonial.photo %}
+              <img src="{{ testimonial.photo.url }}" class="testimonial-img" alt="{{ testimonial.name }}">
+              {% else %}
+              <div class="testimonial-avatar">
+                {{ testimonial.name|make_list|first|upper }}
+              </div>
+              {% endif %}
+              <div class="author-info">
+                <h4>{{ testimonial.name }}</h4>
+                {% if testimonial.position %}
+                <p class="position">{{ testimonial.position }}</p>
+                {% endif %}
+                {% if testimonial.company %}
+                <p class="company">{{ testimonial.company }}</p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <!-- Contrôles du carousel -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Précédent</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Suivant</span>
+      </button>
+
+      <!-- Indicateurs -->
+      <div class="carousel-indicators">
+        {% for testimonial in testimonials %}
+        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="{{ forloop.counter0 }}" 
+                {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                aria-label="Slide {{ forloop.counter }}">
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Decoration -->
+  <div class="bg-decor">
+    <img src="{% static 'nene/img/pattern-tech.svg' %}" alt="Background Pattern">
+  </div>
+</section>
+
+<!-- Final CTA Section -->
+<section id="final-cta" class="final-cta section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+        <h2>Prêt à Transformer Votre Vision en Réalité ?</h2>
+        <p class="lead">Découvrez comment GABITHEX peut vous aider à atteindre vos objectifs</p>
+        
+        <div class="cta-benefits mt-4">
+          <div class="row">
+            <div class="col-md-4">
+              <i class="bi bi-check-circle-fill text-success"></i>
+              <span>Consultation Gratuite</span>
+            </div>
+            <div class="col-md-4">
+              <i class="bi bi-clock-fill text-success"></i>
+              <span>Réponse sous 24h</span>
+            </div>
+            <div class="col-md-4">
+              <i class="bi bi-shield-fill-check text-success"></i>
+              <span>Satisfaction Garantie</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="cta-buttons mt-4">
+          <a href="{% url 'contact' %}" class="btn btn-primary btn-pulse">
+            <i class="bi bi-send-fill me-2"></i>Démarrer Votre Projet
+          </a>
+          <a href="{% url 'portfolio' 'aliou_diallo' %}" class="btn btn-outline-light ms-3">
+            <i class="bi bi-collection-fill me-2"></i>Voir Nos Réalisations
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     {% endblock %}

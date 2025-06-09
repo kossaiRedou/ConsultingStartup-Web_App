@@ -31,6 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nene',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 
@@ -157,7 +159,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'contact@gabithex.fr'  # Email GABITHEX
-EMAIL_HOST_PASSWORD = 'pqfdbitqjowsfnhe'  # Utilise un mot de passe d’application
+EMAIL_HOST_PASSWORD = 'pqfdbitqjowsfnhe'  # Utilise un mot de passe d'application
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
@@ -175,3 +177,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 #==============================================
+
+# Configuration CKEditor
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'height': 400,
+        'width': '100%',
+        'toolbar_Custom': [
+            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker'],
+            ['Link', 'Unlink', 'Anchor'],
+            ['Image', 'Table', 'HorizontalRule'],
+            ['TextColor', 'BGColor'],
+            ['Smiley', 'SpecialChar'],
+            ['Source'],
+            ['CodeSnippet'],
+        ],
+        'extraPlugins': 'codesnippet',
+        'codeSnippet_theme': 'monokai_sublime',
+    }
+}
+
+# Configuration de l'interface d'administration
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SILENCED_SYSTEM_CHECKS = ['security.W019']

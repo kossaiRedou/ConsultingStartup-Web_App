@@ -3,7 +3,9 @@ from django.core.mail import send_mail
 from django.contrib import messages
 from .forms import ContactForm
 from django.utils.timezone import now
-from .models import Employee, Customer, HeroCarousel, Education, Experience, Project, Technology, Certification, Article, AboutSection, Practice, Service
+from .models import Employee, Customer, HeroCarousel, Education, Experience, Project, Technology, Certification, Article, AboutSection, Practice, Service, ConversionStats, Testimonial
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 #from django.contrib.auth.decorators import login_required
 
 
@@ -13,7 +15,18 @@ from .models import Employee, Customer, HeroCarousel, Education, Experience, Pro
 def index(request):
     # Récupérer tous les éléments du carrousel
     hero_carousel = HeroCarousel.objects.all()
-    return render(request, 'nene/index.html', {"hero_carousel":hero_carousel, "timestamp": now().timestamp()})
+    # Récupérer les statistiques de conversion
+    stats = ConversionStats.get_active_stats()
+    testimonials = Testimonial.objects.filter(is_approved=True)
+    clients = Customer.objects.all()
+    context = {
+        "hero_carousel": hero_carousel, 
+        "stats": stats,
+        "testimonials": testimonials,
+        "clients": clients,
+        "timestamp": now().timestamp()
+    }
+    return render(request, 'nene/index.html', context)
 
 #==============================================================
 #        About
@@ -229,3 +242,24 @@ def service_detail(request, slug):
         'testimonials': testimonials,
         "timestamp": now().timestamp()
     })
+
+def leave_testimonial(request):
+    if request.method == "POST":
+        name = request.POST.get("name")
+        company = request.POST.get("company", "")
+        position = request.POST.get("position", "")
+        feedback = request.POST.get("feedback")
+        if name and feedback:
+            Testimonial.objects.create(
+                name=name,
+                company=company,
+                position=position,
+                feedback=feedback,
+                is_approved=False
+            )
+            messages.success(request, "Merci pour votre avis ! Il sera publié après validation.")
+        else:
+            messages.error(request, "Merci de remplir tous les champs obligatoires.")
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return HttpResponseRedirect(reverse("index"))
