@@ -1,16 +1,21 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+# Charger les variables d'environnement
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-eflhmw52v+oeiee1&*cwh)ut!iflxz6g1etldcjju952a()hp('
+SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key-for-dev')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'www.gabithex.fr', 'gabithex.fr', '*.herokuapp.com']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 
 
@@ -158,8 +163,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'contact@gabithex.fr'  # Email GABITHEX
-EMAIL_HOST_PASSWORD = 'pqfdbitqjowsfnhe'  # Utilise un mot de passe d'application
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
